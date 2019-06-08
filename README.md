@@ -1,3 +1,9 @@
+# HTML, CSS, JS
+
+
+
+
+
 ## Resources
 
 <https://heropy.blog/2019/04/24/html-css-starter/>
@@ -6,17 +12,17 @@
 
 ## Visual Studio Code Extensions
 
-#### Beautify (HookyQR)
+__Beautify (HookyQR)__
 
-- Cmd Opt L : auto align selected area of code
+- Cmd Opt L : auto align selected/highlighted area of code
 
-#### Live Server
+__Live Server__
 
 - Cmd + L + O : Open current file with live server
 
-#### Auto Rename Tag
+__Auto Rename Tag__
 
-#### Bracket Pair Colorizer
+__Bracket Pair Colorizer__
 
 
 
@@ -29,8 +35,8 @@
 | Cmd Opt L | Beautify (align tags) |
 | Cmd L O | Open current file with live server |
 | Cmd B | Open/Close sidebar |
-| Cmd P | 빠른 열기 (파일 탐색) |
-| Cmd Shift P | 모든 명령 표시 (에디터의 모든 명령에 접근) |
+| Cmd P | Quick open - file picker (파일 탐색) |
+| Cmd Shift P | Show all commands (에디터의 모든 명령에 접근) |
 | Cmd Opt F | Find and Replace |
 | Opt [Up]/[Down] | Swap current line with line above/below (Move line up/down) |
 | Shift Opt [Up]/[Down] | Copy current line and paste to line above/below |
@@ -43,7 +49,7 @@
 | Cmd [ or ] | Indent/Outdent current line |
 | Cmd Enter | Insert blank line below |
 | Cmd Shift Enter | Insert blank line above |
-|     |  |
+| Cmd Shift S | Save all |
 |     |  |
 |     |  |
 |     |  |
@@ -73,7 +79,7 @@
 
 ## Web Images
 
-### Graphics: Bitmap vs Graphic
+__Graphics: Bitmap vs Graphic__
 
 - Bitmap: consists of pixels (raster)
   - Jpg, png, gif, webp
@@ -87,9 +93,26 @@
 
 
 
-## 웹 표준
+## Web Standards (웹 표준)
 
-- img 태그에 alt 꼭 포함하기
+Check for validation at: <https://validator.w3.org/#validate_by_upload>
+
+Some examples of web standards
+
+- Specifying the `alt` attribute for `img` tags
+
+
+
+
+
+## Property v.s. Attribute
+
+- HTML : attribute
+- CSS : property
+
+
+
+
 
 
 
