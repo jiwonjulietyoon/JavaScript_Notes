@@ -46,3 +46,60 @@ __By Method__
 
 
 
+
+
+
+
+_______
+
+# Miscellaneous CSS Tips
+
+
+
+## Set Height Based on Width
+
+__HTML__
+
+```html
+<div class="outer-container">
+    <div class="inner-container">
+        
+    </div>
+</div>
+```
+
+**CSS**
+
+```css
+.outer-container {
+    width: 100%;
+    padding-top: 80%;
+    position: relative;
+}
+.inner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+```
+
+`.outer-container` `padding-top` => h/w (in "width:height" ratio)
+
+- e.g) 16:9 ratio => 9/16 = 0.5625 => **padding-top: 56.25%;**
+
+
+
+
+
+## Background : 2 colors, no gradient
+
+```css
+background: linear-gradient(to right, #007bff 50%, #181818 50%);
+```
+
+
+
+
+

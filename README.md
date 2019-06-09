@@ -49,7 +49,7 @@ __Bracket Pair Colorizer__
 | Cmd [ or ] | Indent/Outdent current line |
 | Cmd Enter | Insert blank line below |
 | Cmd Shift Enter | Insert blank line above |
-| Cmd Shift S | Save all |
+| Cmd Opt S | Save all |
 |     |  |
 |     |  |
 |     |  |
