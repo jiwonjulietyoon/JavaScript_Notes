@@ -36,13 +36,17 @@ __By Method__
 2. internal style sheet
 3. external style sheet
 
-+) whatever is declared last overrides whatver was declared previously
++) whatever is declared last overrides whatever was declared previously
 
 
 
 
 
+## Units
 
+- Pixel : exact size is relative to device, but generally 1px = 1/96 in
+- `em` : relative to font-size of parent element
+- `rem` : relative to font-size of html (root) - default 16px
 
 
 

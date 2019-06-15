@@ -18,6 +18,14 @@
 
 
 
+#### flex-direction (parent/container)
+
+Establishes the main-axis; whether or not items will be layed out in horizontal rows or vertical columns.
+
+- `row` (default) : left to right
+
+
+
 #### justify-content
 
 Horizontal align
