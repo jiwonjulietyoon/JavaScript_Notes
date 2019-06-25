@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    * {
+        padding: 0; margin: 0;
+        box-sizing: border-box;
+    }
+    .wordBox {
+        width: 100px;
+        height: 100px;
+        /* width: 70px;
+        height: 70px; */
+        border: 1px solid;
+        margin: 20px;
+        position: relative;
+    }
+    .wordBox div {
+        position: absolute;
+    }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * CROWN * * * * * * */
+
+    .wordBox.crown > .rightTriangle {
+        width: 0;
+        height: 0;
+        border-bottom: 35px solid gold;
+        top: 35px;
+    }
+    .wordBox.crown > .rightTriangle.triL {
+        border-right: 40px solid transparent;
+        left: 22px;
+        transform: skew(8deg);
+    }
+    .wordBox.crown > .rightTriangle.triR {
+        border-left: 40px solid transparent;
+        right: 22px;
+        transform: skew(-8deg);
+    }
+    .wordBox.crown > .triCenter {
+        width: 0;
+        height: 0;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        border-bottom: 40px solid gold;
+        top: 25px;
+        left: 24px;
+    }
+    .wordBox.crown .crownTop {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: gold;
+        top: -12px;
+    }
+    .wordBox.crown > .triL > .crownTop {
+        transform: skew(-8deg);
+        left: -5px;
+    }
+    .wordBox.crown > .triR > .crownTop {
+        transform: skew(8deg);
+        left: -2px;
+    }
+    .wordBox.crown > .triCenter > .crownTop {
+        left: -4px;
+    }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* STAR WAND */
+
+    .wordBox.star > .starshape {
+        position: absolute;
+        display: inline-block;
+        width: 0; height: 0;
+        margin-left: .9em; margin-right: .9em; margin-bottom: 1.2em;
+        border-right: .3em solid transparent; border-bottom: .7em solid gold; border-left: .3em solid transparent;
+        font-size: 22px;
+        top: 20px;
+        left: 5px;
+        transform: rotate(-45deg);
+    }
+    .wordBox.star > .starshape:before, .wordBox.star > .starshape:after {
+        content: '';
+        display: block;
+        width: 0; height: 0;
+        position: absolute;
+        top: .6em; left: -1em;
+        border-right: 1em solid transparent; border-bottom: .7em solid gold; border-left: 1em solid transparent;
+        -webkit-transform: rotate(-35deg); transform: rotate(-35deg);
+    }
+    .wordBox.star > .starshape:after {-webkit-transform: rotate(35deg); transform: rotate(35deg);}
+    .wordBox.star > .starshape > .wand {
+        height: 50px;
+        width: 4px;
+        background-color: black;
+        top: 20px;
+        left: -2px;
+    }
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* HEART */
+
+    .wordBox.heart > .heartshape {
+        width: 100px;
+        height: 90px;
+        top: 16px;
+        left: 18px;
+    }
+    .wordBox.heart > .heartshape:before,
+    .wordBox.heart > .heartshape:after {
+      position: absolute;
+      content: "";
+      left: 29px;
+      top: 0;
+      width: 30px;
+      height: 50px;
+      background: gold;
+      border-radius: 30px 30px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+    .wordBox.heart > .heartshape:after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* DIAMOND */
+
+    .wordBox.diamond > .cut-diamond {
+        border-style: solid;
+        border-color: transparent transparent gold transparent;
+        border-width: 0 15px 15px 15px;
+        height: 0;
+        width: 35px;
+        box-sizing: content-box;
+        top: 15px;
+        left: 15px;
+    }
+    .wordBox.diamond > .cut-diamond:after {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: -15px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: gold transparent transparent transparent;
+        border-width: 40px 33px 0 33px;
+    }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* SWORD */
+    .wordBox.sword > .pentagon {
+        top: 20px;
+        left: 38px;
+        width: 10px;
+        box-sizing: content-box;
+        border-width: 40px 6px 0;
+        border-style: solid;
+        border-color: gold transparent;
+    }
+    .wordBox.sword > .pentagon:before {
+        content: "";
+        position: absolute;
+        height: 0;
+        width: 0;
+        top: -47px;
+        left: -6px;
+        border-width: 0 11px 7px;
+        border-style: solid;
+        border-color: transparent transparent gold;
+    }
+    .wordBox.sword > .pentagon > .recHor {
+        width: 30px;
+        height: 3px;
+        left: -10px;
+        background-color: gold;
+        border-radius: 2px;
+    }
+    .wordBox.sword > .pentagon > .recHor:before,
+    .wordBox.sword > .pentagon > .recHor:after {
+        content: "";
+        position: absolute;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background-color: gold;
+        top: -1.5px;
+    }
+    .wordBox.sword > .pentagon > .recHor:before {left: -2px;}
+    .wordBox.sword > .pentagon > .recHor:after {right: -2px;}
+    
+    .wordBox.sword > .pentagon > .recVer {
+        width: 8px;
+        height: 15px;
+        background-color: gold;
+        left: 1px;
+    }
+    .wordBox.sword > .pentagon > .recVer:after {
+        content: "";
+        width: 14px;
+        height: 6px;
+        position: absolute;
+        background-color: gold;
+        border-radius: 4px;
+        top: 70%;
+        left: -37%;
+    }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* BANNER */
+
+    .wordBox.banner > .flag {
+        width: 36px;
+        height: 47px;
+        background-color: gold;
+        top: 15px;
+        left: 50%;
+        transform: translate(-50%);
+    }
+    .wordBox.banner > .flag:before, .wordBox.banner > .flag:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: 100%;
+        border-top: 10px solid gold;
+
+    }
+    .wordBox.banner > .flag:before {
+        border-right: 18px solid transparent;
+    }
+    .wordBox.banner > .flag:after {
+        border-left: 18px solid transparent;
+        right: 0;
+    }
+    .wordBox.banner > .flag > .flaghanger {
+        width: 160%;
+        height: 3px;
+        background-color: gold;
+        left: -30%;
+    }
+    .wordBox.banner > .flag > .flaghanger:before,
+    .wordBox.banner > .flag > .flaghanger:after {
+        content: "";
+        position: absolute;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background-color: gold;
+        top: -1.5px;
+    }
+    .wordBox.banner > .flag > .flaghanger:before {left: -2px;}
+    .wordBox.banner > .flag > .flaghanger:after {right: -2px;}
+
+
+    </style>
+</head>
+<body>
+    
+    <div id="wrap">
+        <div class="wordBox banner">
+            <div class="flag">
+                <div class="flaghanger"></div>
+            </div>
+        </div>
+        <div class="wordBox sword">
+            <div class="pentagon">
+                <div class="recHor"></div>
+                <div class="recVer"></div>
+            </div>
+        </div>
+        <div class="wordBox crown">
+            <div class="rightTriangle triL"><div class="crownTop"></div></div>
+            <div class="rightTriangle triR"><div class="crownTop"></div></div>
+            <div class="triCenter"><div class="crownTop"></div></div>
+        </div>
+        <div class="wordBox star">
+            <div class="starshape">
+                <div class="wand"></div>
+            </div>
+        </div>
+        <div class="wordBox heart">
+            <div class="heartshape"></div>
+        </div>
+        <div class="wordBox diamond">
+            <div class="cut-diamond"></div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
