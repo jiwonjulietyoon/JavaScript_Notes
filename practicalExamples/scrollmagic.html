@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Scroll Magic</title>
+
+    <link rel="stylesheet" href="reset.css">
+
+    <style>
+        #wrap {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .spacer {
+            width: 100%;
+            height: 1000px;
+            /* border: 1px solid; */
+        }
+        .s2 {
+            background: lightpink;
+        }
+        .s0 {
+            background: lightblue;
+            height: 200px;
+        }
+
+        .box2 {
+            width: 80%;
+            margin-left: 10%;
+            border: 1px solid;
+            background: gold;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="wrap">
+        <div class="spacer s2"></div>
+        <div id="trigger1" class="spacer s0"></div>
+        <div id="pin1" class="box2">
+            <p>Stay where you are (at least for a while).</p>
+        </div>
+        <div class="spacer s2"></div>
+    </div> <!-- #wrap -->
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <!-- <script src="js/scrollmagic/uncompressed/ScrollMagic.js"></script> -->
+    <script>
+        
+        
+        $(function () { // wait for document ready
+            var controller = new ScrollMagic.Controller();
+            
+            // build scene
+            var scene = new ScrollMagic.Scene({
+                triggerElement: "#trigger1", 
+                offset: 100, 
+                duration: 500,
+            })
+            .setPin("#pin1", {pushFollowers: false})
+            // .addIndicators({name: "1 (duration: 300)"}) // add indicators (requires plugin)
+            .addTo(controller);
+        });
+    
+    </script>
+</body>
+</html>

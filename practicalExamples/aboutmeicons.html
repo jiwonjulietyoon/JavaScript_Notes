@@ -389,6 +389,44 @@
     }
 
 
+
+    .wordBox.scroll > .cylinder {
+        width: 25%;
+        height: 55%;
+        border-radius: 0 0 10px 10px;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%);
+        background: gold;
+    }
+    .wordBox.scroll > .cylinder:after {
+        content: "";
+        width: 100%;
+        height: 25%;
+        border-radius: 100%;
+        background: darkgoldenrod;
+        position: absolute;
+        top: -10%;
+    }
+
+    .wordBox.scroll > .cylinder > .strap {
+        width: 100%;
+        height: 10%;
+        background: darkgoldenrod;
+        top: 40%;
+    }
+    .wordBox.scroll > .cylinder > .strap:after {
+        content: "";
+        width: 80%;
+        height: 120%;
+        background: darkgoldenrod;
+        position: absolute;
+        top: 140%;
+        right: 100%;
+        transform: skewY(-40deg);
+    }
+
+
     </style>
 </head>
 <body>
@@ -400,6 +438,7 @@
         <div class='wordBox star'><div class='starshape'><div class='wand'></div></div><div class='preview'>TEXT</div></div>
         <div class='wordBox heart'><div class='heartshape'></div><div class='preview'>TEXT</div></div>
         <div class='wordBox diamond'><div class='cut-diamond'></div><div class='preview'>TEXT</div></div>
+        <div class='wordBox scroll'><div class='cylinder'><div class='strap'></div></div><div class='preview'>TEXT</div></div>
     </div>
 
 
