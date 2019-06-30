@@ -8,7 +8,9 @@
 
 
 
-#### * Setting up
+
+
+## Setting up
 
 - Set `display: flex;` to the outer container (parent element)
 - This enables a flex context for all direct children elements
@@ -18,11 +20,28 @@
 
 
 
-#### flex-direction (parent/container)
+## Flex Container/Parent Properties
 
-Establishes the main-axis; whether or not items will be layed out in horizontal rows or vertical columns.
+#### flex-direction
 
-- `row` (default) : left to right
+Establishes the main-axis; whether or not items will be layed out in **horizontal rows** or **vertical columns**.
+
+- `row` (default) : left to right in `ltr`, right to left in `rtl`
+  - opp) `row-reverse`
+- `column` : top to bottom
+  - opp) `column-reverse`
+
+
+
+#### flex-wrap
+
+Fitting child items into single/multiple lines
+
+- `nowrap` (default) : try to fit all child items into one line
+- `wrap` : fit items into multiple lines (top to bottom) => no squishing items. if all items don't fit into a single line, place the excess items in the next line (from the top-left corner)
+  - opp) `wrap-reverse`: similar to "wrap" except start from the bottom-left corner
+
+
 
 
 
