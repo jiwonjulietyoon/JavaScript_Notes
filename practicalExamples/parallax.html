@@ -20,8 +20,8 @@
         }
         .parallax-wrapper {
             width: 100vw;
-            height:100vh;
-            /* padding-top: 20vh; */
+            height: 150vh;
+            padding-top: 20vh;
             box-sizing: border-box;
             transform-style: preserve-3d;
             z-index: 2;
@@ -30,27 +30,28 @@
         .parallax-wrapper:before {
             content:"";
             width: 100vw;
-            height: 100vh;
+            height: 150vh;
             top:0;
             left:0;
-            background-image: url("https://picsum.photos/800");
+            background: url("https://static.vecteezy.com/system/resources/previews/000/141/086/large_2x/abstract-vector-pattern.jpg");
             position: absolute;
             z-index: -1;
             transform:translateZ(-1px) scale(2);
         }
         .content {
-            /* margin: 0 auto; */
             padding: 50px;
             width: 50%;
             position: absolute;
-            bottom: 0;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             background: #aaa;
+            z-index: 5;
         }
         .regular-wrapper {
             width: 100vw;
-            height: 100vh;
+            height: 150vh;
             padding-top: 20vh;
-            background-image: url("https://picsum.photos/700");
+            background-image: url("https://static.vecteezy.com/system/resources/previews/000/086/608/large_2x/seamless-leaf-background-vector.jpg");
         }
         
         
@@ -59,6 +60,14 @@
 </head>
 <body>
     
+    <div class="parallax-wrapper">
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, qui. Accusamus cumque nemo facilis veniam, eligendi tempora nihil officia totam!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum tenetur hic eos quibusdam ab praesentium, maiores nihil. Minus eos fugiat, harum corporis ut deserunt consequuntur tempore itaque illo quas saepe? 
+                Donec in justo eu ligula semper consequat sed a risus.</p>
+        </div>
+    </div>
     <div class="parallax-wrapper">
         <div class="content">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
