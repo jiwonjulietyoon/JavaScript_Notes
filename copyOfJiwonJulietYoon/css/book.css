@@ -1,5 +1,5 @@
 
-@keyframes bookRise {
+/* @keyframes bookRise {
     0% {top: 10%;}
     95% {top: 2.5%;}
     100% {top: 3%;}
@@ -11,14 +11,14 @@
     animation: bookRise 1s;
     animation-fill-mode: forwards;
     position: relative;
-}
-@media screen and (min-width: 1200px) {
+} */
+/* @media screen and (min-width: 1200px) {
     #wrap {
         width: 1140px;
     }
-}
+} */
 
-.bookContainer {
+/* .bookContainer {
     position: absolute;
     top: 0;
     left: 0;
@@ -32,12 +32,12 @@
     .bookContainer {
         padding: 10px;
     }
-}
+} */
 
-.bb-item {
+/* .bb-item {
     position: relative;
-}
-.pageNum {
+} */
+/* .pageNum {
     position: absolute;
     bottom: 17px;
     width: 100%;
@@ -64,5 +64,5 @@
     float: right;
     border-bottom: 2px solid transparent;
     transition: all 0.5s;
-}
+} */
 
