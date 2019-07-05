@@ -1,0 +1,68 @@
+
+@keyframes bookRise {
+    0% {top: 10%;}
+    95% {top: 2.5%;}
+    100% {top: 3%;}
+}
+#wrap {
+    width: 95%;
+    height: 94%;
+    margin: 0 auto;
+    animation: bookRise 1s;
+    animation-fill-mode: forwards;
+    position: relative;
+}
+@media screen and (min-width: 1200px) {
+    #wrap {
+        width: 1140px;
+    }
+}
+
+.bookContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #8B4513;
+    border-radius: 8px;
+    padding: 15px;
+}
+@media screen and (max-width: 575px) {
+    .bookContainer {
+        padding: 10px;
+    }
+}
+
+.bb-item {
+    position: relative;
+}
+.pageNum {
+    position: absolute;
+    bottom: 17px;
+    width: 100%;
+    padding: 0 55px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Copse', serif;
+    
+}
+
+@media screen and (max-width: 575px) {
+    .pageNum {
+        bottom: 25px;
+        font-size: 15px;
+    }
+}
+
+.pageNumL {
+    float: left;
+    border-bottom: 2px solid transparent;
+    transition: all 0.5s;
+}
+.pageNumR {
+    float: right;
+    border-bottom: 2px solid transparent;
+    transition: all 0.5s;
+}
+

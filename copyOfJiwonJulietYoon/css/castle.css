@@ -1,0 +1,882 @@
+.pg1_castle {width: 90%; margin: 0 auto;}
+
+/* * * * * PICTURE FRAME* * * * * * * * * * * * * * * * * */
+
+.pictureContainer {
+    width: 100%;
+    padding-top: 120%;
+    position: relative;
+    margin-top: 10px;
+    overflow: hidden;
+}
+@media screen and (min-width: 576px) {
+    .pictureContainer {padding-top: 100%;}
+}
+@media screen and (min-width: 768px) {
+    .pictureContainer {padding-top: 80%;}
+}
+@media screen and (min-width: 992px) {
+    .pictureContainer {padding-top: 60%;}
+}
+
+.pictureFrame {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 5px;
+}
+.frameSec {
+    float: left;
+    height: 100%;
+    position: relative;
+}
+.frameL, .frameR {
+    display: none;
+}
+.frameM {
+    width: 100%;
+    border-bottom: 15px solid rgb(59, 90, 78);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+@media screen and (min-width: 576px) {
+    .frameL, .frameR {
+        display: block;
+        width: 25%;
+    }
+    .frameM {
+        width: 50%;
+        border-radius: 0;
+    }
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * *  C A S T L E  * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.castle {
+    position: absolute;
+    bottom: 0;
+}
+.castle.towerTriRotateOuter {
+    width: calc(100% / 1.4142);
+    padding-top: calc(100% / 1.4142);
+    left: 15%;
+    bottom: 80%;
+    transform: rotate(-45deg);
+    transform-origin: 70% 60%;
+}
+.castle.towerTriRotateInner {
+    width: 100%; height: 100%;
+    background: linear-gradient(to right bottom, rgb(90, 104, 109), rgb(48, 58, 59));
+    border-radius: 100% 0% 0% 100% / 0% 0% 100% 100%;
+}
+.castle.windows {
+    width: 20%;
+    height: 3.5%;
+    background-color: rgb(164, 167, 163);
+    border-top-left-radius: 40%;
+    border-top-right-radius: 40%;
+}
+
+/* * * * * CENTER BACK TOWER (TALLEST) * * * * * */
+
+.castle.backTallestTower {
+    width: 9.5%;
+    height: 70%;
+    left: 43%;
+    background-color: rgb(148, 155, 158);
+}
+.castle.backTallestTowerMid {
+    width: 120%;
+    height: 5%;
+    left: -10%;
+    bottom: 100%;
+    background-color: rgb(187, 179, 134);
+}
+.castle.backTallestTowerMid > .castle.towerTriRotateOuter {
+    bottom: 44%;
+}
+
+/* * * * * BACK MAIN BLDG * * * * * */
+
+.castle.backMainBd {
+    width: 38%;
+    height: 39%;
+    background-color: rgb(163, 167, 163);
+    left: 31%;
+}
+.castle.backMainBdTop {
+    background-image: linear-gradient(to right, rgb(163, 167, 163) 10%, rgb(187, 179, 134) 10%, rgb(187, 179, 134) 90%, rgb(163, 167, 163) 90%);
+    left: 50%;
+    transform: translate(-50%);
+    height: 5%;
+    border-left: 10px solid rgb(90, 104, 109);
+    border-right: 10px solid rgb(90, 104, 109);
+}
+.castle.backMainBdTop:nth-of-type(1) {width: 95%; bottom: 100%;}
+.castle.backMainBdTop:nth-of-type(2) {width: 83%; bottom: 105%;}
+.castle.backMainBdTop:nth-of-type(3) {width: 71%; bottom: 110%;}
+.castle.backMainBdTop:nth-of-type(4) {width: 59%; bottom: 115%;}
+.castle.backMainBdTop:nth-of-type(5) {width: 47%; bottom: 120%;}
+.castle.backMainBdTop:nth-of-type(6) {width: 35%; bottom: 125%;}
+.castle.backMainBdTop:nth-of-type(7) {width: 23%; bottom: 130%;}
+.castle.backMainBdTop:nth-of-type(8) {width: 11%; bottom: 135%; background-color: rgb(90, 104, 109);}
+
+/* * * * * BACK LEFT TOWER * * * * * */
+
+.castle.backLeftTower {
+    width: 11%;
+    height: 56%;
+    background-color: rgb(193, 204, 199);
+    left: 21%;
+}
+.castle.backLeftTowerMid {
+    width: 120%;
+    height: 9%;
+    background-color: rgb(211, 207, 161);
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%);
+}
+.castle.backLeftTowerMidDeco {
+    width: 120%;
+    height: 40%;
+    background-color: rgb(221, 214, 173);
+    left: 50%;
+    bottom: initial;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.castle.backLeftTowerMid > .castle.towerTriRotateOuter {bottom: 44%;}
+.castle.windows.window1 {bottom: 90%; left: 20%;}
+.castle.windows.window2 {bottom: 80%; right: 20%;}
+.castle.windows.window3 {bottom: 70%; left: 25%;}
+
+/* * * * * BACK RIGHT TOWER * * * * * */
+
+.castle.backRightTower {
+    width: 14%;
+    height: 54%;
+    background-color: rgb(193, 204, 199);
+    left: 67%;
+}
+.castle.backRightTowerMid {
+    width: 120%;
+    height: 5%;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(211, 207, 161);
+}
+.castle.backRightTowerMid:nth-of-type(2) {
+    width: 140%;
+    bottom: 105%;
+    background-image: linear-gradient(to top, rgb(221, 214, 173) 50%, rgb(90, 104, 109) 50%);
+}
+.castle.backRightTowerTop {
+    width: 80%;
+    height: 13%;
+    bottom: 110%;
+    background-color: rgb(193, 204, 199);
+    left: 10%;
+}
+.castle.backRightTowerWindow {
+    width: 40%;
+    height: 50%;
+    border-radius: 50% 50% 0 0;
+    background-color: rgb(90, 104, 109);
+    left: 50%;
+    bottom: initial;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.castle.backRightTowerTopMid {
+    width: 128%;
+    height: 40%;
+    bottom: 100%;
+    background-color: rgb(221, 214, 173);
+    left: -14%;
+}
+.castle.backRightTowerTopMid > .castle.towerTriRotateOuter {
+    bottom: 10%;
+}
+.castle.windows.window4 {height: 4%; bottom: 90%; right: 20%;}
+.castle.windows.window5 {height: 4%; bottom: 80%; left: 25%;}
+
+/* * * * * CASTLE (CENTER) MAIN BUILDING * * * * * */
+
+.castle.mainBd {
+    width: 30%;
+    height: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(226, 133, 59);
+}
+.castle.mainBdTop {
+    width: 10%;
+    bottom: 100%;
+    background-color: rgb(226, 133, 59);
+    border-top: 10px solid rgb(90, 104, 109);
+}
+.castle.mainBdTop:nth-child(1) {height: 10%; left: 15%;}
+.castle.mainBdTop:nth-child(2) {height: 15%; left: 25%;}
+.castle.mainBdTop:nth-child(3) {height: 20%; left: 35%;}
+.castle.mainBdTop:nth-child(4) {height: 25%; left: 45%;}
+.castle.mainBdTop:nth-child(5) {height: 20%; right: 35%;}
+.castle.mainBdTop:nth-child(6) {height: 15%; right: 25%;}
+.castle.mainBdTop:nth-child(7) {height: 10%; right: 15%;}
+.castle.mainGate {
+    width: 20%;
+    height: 25%;
+    left: 40%;
+    background-color: rgb(187, 179, 134);
+}
+.castle.mainGateDoor {
+    width: 50%;
+    left: 25%;
+    height: 50%;
+    background: linear-gradient(90deg, #461f0f 20%, #6d2f17 20%, #6d2f17 40%, #461f0f 40%, #461f0f 60%, #6d2f17 60%, #6d2f17 80%, #461f0f 80%, #461f0f 100%);
+}
+.castle.mainGateDoorTop {
+    width: 100%;
+    bottom: 75%;
+    background: linear-gradient(90deg, #461f0f 20%, #6d2f17 20%, #6d2f17 40%, #461f0f 40%, #461f0f 60%, #6d2f17 60%, #6d2f17 80%, #461f0f 80%, #461f0f 100%);
+    height: 50%;
+    border-radius: 50%;
+}
+
+/* * * * * CASTLE SIDE BUILDINGS * * * * * */
+
+.castle.sideBd  {
+    width: 20%;
+    height: 20%;
+    background-color: rgb(226, 133, 59);
+    border: 5px solid rgb(187, 179, 134);
+    border-bottom: none;
+}
+.castle.sideL {left: 15%;}
+.castle.sideR {right: 15%;}
+.castle.sideDeco {
+    width: calc(100% / 7);
+    height: 15%;
+    background-color: rgb(187, 179, 134);
+    bottom: 100%;
+}
+.castle.sideDeco:nth-child(2) {left: calc(200% / 7);}
+.castle.sideDeco:nth-child(3) {left: calc(400% / 7);}
+.castle.sideDeco:nth-child(4) {left: calc(600% / 7);}
+.castle.sideShield {
+    width: 0;
+    height: 0;
+    bottom: initial;
+    right: 50%;
+    border-top: 10px solid transparent;
+    border-right: 30px solid rgb(90, 104, 109);
+    border-bottom: 35px solid transparent;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+.castle.sideShield.sideShieldR {
+    transform: rotateY(180deg) translate(0, -50%);
+    transform-origin: right;
+    border-right-color: rgb(48, 58, 59);
+}
+
+/* * * * * CASTLE TOWERS * * * * * */
+
+.castle.tower {
+    width: 10%;
+    height: 30%;
+    background: linear-gradient(to right, rgb(221, 214, 173) 50%, rgb(211, 207, 161) 50%);
+}
+.castle.towerL {left: 5%;}
+.castle.towerR {right: 5%;}
+.castle.towerMid {
+    bottom: 100%;
+    width: 130%;
+    height: 10%;
+    left: -15%;
+    background-color: rgb(90, 104, 109);
+}
+.castle.towerMidDeco {
+    bottom: 50%;
+    width: calc(100% / 7);
+    height: 120%;
+    background: #b6a377;
+}
+#towerDeco2 {left: calc(200% / 7);}
+#towerDeco3 {left: calc(400% / 7);}
+#towerDeco4 {left: calc(600% / 7);}
+.castle.towerMidStrip {
+    width: 100%;
+    height: 50%;
+    background: #b6a377;
+    bottom: 75%;
+}
+
+/* * * * * CASTLE FLAGS * * * * * */
+
+.flagpole {
+    position: absolute;
+    width: 0.7%;
+    height: 20%;
+    background-color: rgb(48, 58, 59);
+    border-radius: 2px;
+    bottom: 0;
+}
+.pole1 {bottom: 30%; left: 9.5%;}
+.pole2 {bottom: 56%; left: 26.2%;}
+.pole3 {bottom: 68%; left: 47.3%;}
+.pole4 {bottom: 65%; left: 73.7%;}
+.pole5 {bottom: 30%; right: 9.5%;}
+.flagBannerOuter {
+    position: absolute;
+    width: 7%;
+    padding-top: 7%;
+}
+.flagBanner {
+    position: absolute;
+    width: 100%; height: 100%;
+    background: rgb(226, 133, 59);
+    border: 4px solid rgb(226, 100, 0);
+}
+.banner4 > .flagBanner, .banner5 > .flagBanner {
+    border: 4px solid rgb(226, 100, 0);
+}
+.flagBannerDeco {
+    position: absolute;
+    left: -25%;
+    width: 100%;
+    /* height: calc(100% * 1.02); */
+    height: 100%;
+    background: rgb(226, 133, 59);
+    transform: skew(15deg);
+    border: 4px solid rgb(226, 100, 0);
+    border-right: none;
+}
+.banner4 > .flagBannerDeco, .banner5 > .flagBannerDeco {
+    transform: skew(-15deg);
+    left: 25%;
+    border: 4px solid rgb(226, 100, 0);
+    border-left: none;
+}
+.flagLetter {
+    position: absolute;
+    width: 85%;
+    color: rgb(48, 58, 59);
+    font-family: 'Berkshire Swash', cursive;
+    text-align: center;
+    top: 45%; left: 15%;
+    transform: translateY(-50%) skew(-15deg);
+}
+.banner4 .flagLetter, .banner5 .flagLetter {left: 5%; transform: translateY(-50%) skew(15deg);}
+.banner1 {bottom: 49%; left: 2.5%;}
+.banner2 {bottom: 75%; left: 19.2%;}
+.banner3 {bottom: 87%; left: 40.3%;}
+.banner4 {bottom: 84%; left: 74.4%;}
+.banner5 {bottom: 49%; right: 2.5%;}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * *  T R E E S  * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.trees {
+    position: absolute;
+    bottom: 0;
+}
+
+/* * * * * TREES - LEFT * * * * * */
+
+.meadowL1 {
+    width: 80%;
+    height: 3%;
+    border-radius: 200% 330% 0 30px;
+    background: rgb(127, 177, 60);
+}
+.meadowL2 {
+    width: 55%;
+    height: 6%;
+    border-radius: 300% 250% 0 0;
+    background: rgb(154, 193, 92);
+    left: 20%;
+}
+.treeL1Trunk {
+    width: 4%;
+    height: 25%;
+    background-color: rgb(132, 86, 57);
+    border-radius: 2px;
+    left: 20%;
+}
+.treeL1Leaf {
+    width: 10%;
+    height: 7%;
+    background-color: rgb(181, 218, 113);
+    border-radius: 100% 0% 100% 0% / 100% 0% 100% 0%;
+}
+.treeL1Leaf.leaf1 {
+    bottom: 24%;
+    left: 20%;
+    transform: rotate(-20deg);
+    transform-origin: bottom;
+    background-color: rgb(139, 198, 97);
+}
+.treeL1Leaf.leaf2 {
+    background-color: rgb(139, 198, 97);
+    bottom: 18%;
+    left: 23%;
+}
+.treeL1Leaf.leaf3 {
+    bottom: 19%;
+    left: 21%;
+    transform: rotateY(180deg);
+    transform-origin: left;
+}
+.treeL1Leaf.leaf4 {
+    bottom: 11.5%;
+    left: 23%;
+}
+.treeL1Leaf.leaf5 {
+    background-color: rgb(139, 198, 97);
+    bottom: 13%;
+    left: 21%;
+    transform: rotateY(180deg);
+    transform-origin: left;
+}
+.treeL1Leaf.leaf6 {
+    bottom: 6%;
+    left: 23%;
+    background-color: rgb(84, 171, 83);
+}
+.treeL1Leaf.leaf7 {
+    bottom: 7%;
+    left: 21%;
+    transform: rotateY(180deg);
+    transform-origin: left;
+    background-color: rgb(84, 171, 83);
+}
+.treeL2Trunk {
+    width: 4%;
+    height: 20%;
+    background: rgb(99, 59, 39);
+    right: 37%;
+    border-radius: 2px;
+}
+.treeL2Leaf1Outer {width: 25%; padding-top: 25%; right: 25%; bottom: 19%;}
+.treeL2Leaf2Outer {width: 15%; padding-top: 15%; right: 37%; bottom: 15%;}
+.treeL2Leaf3Outer {width: 20%; padding-top: 20%; right: 21%; bottom: 14%;}
+.treeL2Leaf1, .treeL2Leaf2, .treeL2Leaf3 {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom left, rgb(84, 171, 83) 50%, rgb(139, 198, 97) 50%);
+    border-radius: 50%;
+}
+
+/* * * * * TREES - RIGHT * * * * * */
+
+.meadowR1 {
+    width: 80%;
+    height: 2%;
+    border-radius: 150% 200% 0 0;
+    background: rgb(127, 177, 60);
+    right: 2%;
+}
+.meadowR2 {
+    width: 40%;
+    height: 4%;
+    border-radius: 300% 250% 0 0;
+    background: rgb(154, 193, 92);
+    right: 35%;
+}
+.meadowR3 {
+    width: 30%;
+    height: 5%;
+    border-radius: 180% 300% 0 0;
+    background: rgb(94, 133, 44);
+    right: 7%;
+}
+
+.treeR1Trunk {
+    width: 4%;
+    height: 23%;
+    background: rgb(132, 86, 57);
+    left: 40%;
+    border-radius: 2px;
+}
+.treeR1Leaf1Outer, .treeR1Leaf2Outer, .treeR1Leaf3Outer {
+    width: 15%;
+    padding-top: 15%;
+    transform: rotate(-45deg);
+    transform-origin: 70% 60%;
+    left: 34%;
+    bottom: 21%;
+}
+.treeR1Leaf2Outer {
+    width: 18%;
+    padding-top: 18%;
+    bottom: 17%;
+    left: 33%;
+}
+.treeR1Leaf3Outer {
+    width: 21%;
+    padding-top: 21%;
+    bottom: 12%;
+    left: 32%;
+}
+.treeR1Leaf1, .treeR1Leaf2, .treeR1Leaf3 {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(181, 218, 113);
+    border-radius: 100% 0% 0% 100% / 0% 0% 100% 100%;
+}
+.treeR1Leaf2 {background-color: rgb(139, 198, 97);}
+.treeR1Leaf3 {background-color: rgb(84, 171, 83);}
+.treeR2Trunk {
+    width: 4%;
+    height: 22%;
+    background: rgb(99, 59, 39);
+    right: 20%;
+    border-radius: 4px;
+}
+.treeR2Branch1, .treeR2Branch2, .treeR2Branch3 {
+    width: 50%;
+    height: 17%;
+    background: rgb(99, 59, 39);
+    left: 0%;
+    bottom: 85%;
+    transform: rotate(-45deg);
+    transform-origin: bottom;
+    border-radius: 2px;
+}
+.treeR2Branch2 {
+    bottom: 75%;
+    left: 30%;
+    transform: rotate(50deg);
+}
+.treeR2Branch3 {
+    bottom: 68%;
+    transform: rotate(-40deg);
+}
+.treeR2Leaf1 {
+    width: 24%;
+    height: 14%;
+    background: rgb(84, 171, 83);
+    border-radius: 10px;
+    right: 10%;
+    bottom: 12%;
+}
+.treeR2Leaf2 {
+    top: 7px; left: 7px; right: 7px; bottom: 7px;
+    border-radius: 7px;
+    background: rgb(139, 198, 97);
+}
+.treeR2Leaf3 {
+    top: 7px; left: 7px; right: 7px; bottom: 7px;
+    border-radius: 7px;
+    background: rgb(181, 218, 113);
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * *  C E L E S T I A L  * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.celestial {
+    width: 100%; height: 100%;
+    position: absolute;
+}
+
+@keyframes skyColor {
+    0% {opacity: 1}
+    30% {opacity: 1}
+    70% {opacity: 0}
+    100% {opacity: 0}
+}
+.bgSky {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 5px;
+}
+.bgSkyDay {
+    background: radial-gradient(ellipse at bottom, #FFFFFF 20%, #9CECFB 100%);
+    opacity: 1;
+    animation: skyColor 15s linear infinite alternate;
+}
+.bgSkyNight {
+    background: radial-gradient(ellipse at bottom, #FFFDE4 0%, rgb(0, 54, 102) 100%);
+    opacity: 0;
+    animation: skyColor 15s linear infinite alternate-reverse;
+}
+
+
+.rainbowBox {
+    position: absolute;
+    width: 100%;
+    padding-top: 100%;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%);
+}
+@media screen and (max-width: 575px) {
+    .rainbowBox {width: 150%; padding-top: 150%;}
+}
+.rainbowContainer {
+    position: absolute;
+    top: 30%; left: 30%; right: 30%; bottom: 30%;
+    transform: translateY(120%) rotate(45deg);
+}
+
+@keyframes rainbowspin {
+    0% {transform: rotate(0deg)}
+    6% {transform: rotate(0deg)}
+    12% {transform: rotate(360deg)}
+    100% {transform: rotate(360deg)}
+}
+.rainbowRing {
+    position: absolute;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at -50% -50%, rgba(0, 0, 0, 0) 45%, #FDD0D0 46.5%, #FDFBD6 48%, #D5FBC9 49.5%, #DBFAFF 51%, #EBD3FD 53.5%, rgba(0, 0, 0, 0) 55%);
+    -webkit-background: radial-gradient(ellipse at -50% -50%, rgba(0, 0, 0, 0) 45%, #FDD0D0 46.5%, #FDFBD6 48%, #D5FBC9 49.5%, #DBFAFF 51%, #EBD3FD 53.5%, rgba(0, 0, 0, 0) 55%);
+    -moz-background: radial-gradient(ellipse at -50% -50%, rgba(0, 0, 0, 0) 45%, #FDD0D0 46.5%, #FDFBD6 48%, #D5FBC9 49.5%, #DBFAFF 51%, #EBD3FD 53.5%, rgba(0, 0, 0, 0) 55%);
+    transform-origin: -50% -50%;
+    animation: rainbowspin 30s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+.rainbowRing:nth-of-type(1) {animation-delay: -0.45s}
+.rainbowRing:nth-of-type(2) {animation-delay: -0.4s}
+.rainbowRing:nth-of-type(3) {animation-delay: -0.35s}
+.rainbowRing:nth-of-type(4) {animation-delay: -0.3s}
+.rainbowRing:nth-of-type(5) {animation-delay: -0.25s}
+.rainbowRing:nth-of-type(6) {animation-delay: -0.2s}
+.rainbowRing:nth-of-type(7) {animation-delay: -0.15s}
+.rainbowRing:nth-of-type(8) {animation-delay: -0.1s}
+.rainbowRing:nth-of-type(9) {animation-delay: -0.05s}
+
+
+
+
+
+@keyframes star1Opacity {
+    0% {opacity: 0}
+    60% {opacity: 0}
+    70% {opacity: 1}
+    75% {opacity: 1}
+    77% {opacity: 0.3}
+    79% {opacity: 1}
+    90% {opacity: 1}
+    92% {opacity: 0.3}
+    94% {opacity: 1}
+    100% {opacity: 1}
+}
+@keyframes star2Opacity {
+    0% {opacity: 0}
+    65% {opacity: 0}
+    70% {opacity: 1}
+    80% {opacity: 1}
+    82% {opacity: 0.3}
+    84% {opacity: 1}
+    94% {opacity: 1}
+    95% {opacity: 0.3}
+    96% {opacity: 1}
+    100% {opacity: 1}
+}
+@keyframes star3Opacity {
+    0% {opacity: 0}
+    70% {opacity: 0}
+    80% {opacity: 1}
+    82% {opacity: 1}
+    84% {opacity: 0.4}
+    86% {opacity: 1}
+    88% {opacity: 1}
+    89% {opacity: 0.4}
+    90% {opacity: 1}
+    100% {opacity: 1}
+}
+@keyframes star4Opacity {
+    0% {opacity: 0}
+    65% {opacity: 0}
+    75% {opacity: 1}
+    90% {opacity: 1}
+    93% {opacity: 0.2}
+    96% {opacity: 1}
+    100% {opacity: 1}
+}
+@keyframes star5Opacity {
+    0% {opacity: 0}
+    60% {opacity: 0}
+    75% {opacity: 1}
+    78% {opacity: 1}
+    80% {opacity: 0.3}
+    82% {opacity: 1}
+    95% {opacity: 1}
+    96% {opacity: 0.3}
+    97% {opacity: 1}
+    100% {opacity: 1}
+}
+
+.star {
+    position: absolute;
+    display: inline-block;
+    width: 0; height: 0;
+    margin-left: .9em; margin-right: .9em; margin-bottom: 1.2em;
+    border-right: .3em solid transparent; border-bottom: .7em solid #FFFFCC; border-left: .3em solid transparent;
+    opacity: 0;
+    animation: star1Opacity 15s linear infinite alternate;
+}
+.star:before, .star:after {
+    content: '';
+    display: block;
+    width: 0; height: 0;
+    position: absolute;
+    top: .6em; left: -1em;
+    border-right: 1em solid transparent; border-bottom: .7em solid #FFFFCC; border-left: 1em solid transparent;
+    -webkit-transform: rotate(-35deg); transform: rotate(-35deg);
+}
+.star:after {-webkit-transform: rotate(35deg); transform: rotate(35deg);}
+
+.star1 {font-size: 6px; top: 6%; left: 4%; animation-name: star2Opacity}
+.star2 {font-size: 5px; top: 13%; left: 9%; animation-name: star4Opacity}
+.star3 {font-size: 4px; top: 5%; left: 13%;}
+.star4 {font-size: 5px; top: 10%; left: 20%; animation-name: star3Opacity}
+.star5 {font-size: 3px; top: 11%; left: 25%; animation-name: star5Opacity}
+.star6 {font-size: 4px; top: 9%; left: 35%;}
+.star7 {font-size: 3px; top: 10%; left: 40%; animation-name: star2Opacity}
+.star8 {font-size: 4px; top: 13%; left: 50%; animation-name: star5Opacity}
+.star9 {font-size: 5px; top: 12%; left: 54%; animation-name: star3Opacity}
+.star10 {font-size: 3px; top: 10%; left: 65%; animation-name: star4Opacity}
+.star11 {font-size: 4px; top: 8%; left: 75%;}
+.star12 {font-size: 5px; top: 6%; left: 80%; animation-name: star4Opacity}
+.star13 {font-size: 4px; top: 11%; left: 88%; animation-name: star2Opacity}
+.star14 {font-size: 6px; top: 5%; left: 91%; animation-name: star5Opacity}
+.star15 {font-size: 3px; top: 9%; left: 97%; animation-name: star3Opacity}
+
+@keyframes cloudOpacity {
+    0% {opacity: 1}
+    50% {opacity: 0.3}
+    65% {opacity: 0.05}
+    100% {opacity: 0.05}
+}
+.cloudBase {
+    width: 100px;
+    height: 40px;
+    border-radius: 40px;
+    background: radial-gradient(ellipse at top, white 50%, rgb(220, 236, 250));
+    position: absolute;
+    top: 60px;
+    left: 40px;
+    opacity: 1;
+    animation: cloudOpacity 15s linear infinite alternate;
+}
+.cloudTopL {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at bottom, white 70%, rgb(220, 236, 250));
+    position: absolute;
+    bottom: 60%;
+    left: 15%;
+}
+.cloudTopR {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at bottom, white 70%, rgb(220, 236, 250));
+    position: absolute;
+    bottom: 45%;
+    right: 15%;
+}
+@media screen and (max-width: 991px) {
+    .cloudBase {width: 75px; height: 30px; border-radius: 30px;}
+    .cloudTopL {width: 22px; height: 22px;}
+    .cloudTopR {width: 33px; height: 33px;}
+}
+
+
+@keyframes moonOpacity {
+    0% {opacity: 0}
+    40% {opacity: 0}
+    60% {opacity: 1}
+    100% {opacity: 1}
+}
+
+.moon {
+    position: absolute;
+    top: 25px;
+    right: 45px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 11px 11px 0 0 #EEEEEE;
+    opacity: 0;
+    animation: moonOpacity 15s linear infinite alternate;
+}
+@media screen and (max-width: 991px) {
+    .moon {
+        width: 45px;
+        height: 45px;
+        box-shadow: 8px 8px 0 0 #EEEEEE;
+    }
+}
+
+
+@keyframes sunOpacity {
+    0% {opacity: 1}
+    30% {opacity: 1}
+    55% {opacity: 0}
+    100% {opacity: 0}
+}
+.sun {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: radial-gradient(circle, #fffc00 0%, #F2C94C 100%);
+    opacity: 1;
+    animation: sunOpacity 15s linear infinite alternate;
+}
+.sunrays {
+    border-radius: 50%;
+    position: absolute;
+    background: #F2C94C;
+}
+.sunraysBg {width: 7px; height: 7px;}
+.sunraysSm {width: 5px; height: 5px;}
+.sunrays:nth-child(1) {bottom: 120%; left: 50%; transform: translate(-50%);}
+.sunrays:nth-child(2) {top: 120%; left: 50%; transform: translate(-50%);}
+.sunrays:nth-child(3) {left: 120%; top: 50%; transform: translate(0, -50%);}
+.sunrays:nth-child(4) {right: 120%; top: 50%; transform: translate(0, -50%);}
+.sunrays:nth-child(5) {top: -10%; left: -10%;}
+.sunrays:nth-child(6) {top: -10%; right: -10%;}
+.sunrays:nth-child(7) {bottom: -10%; left: -10%;}
+.sunrays:nth-child(8) {bottom: -10%; right: -10%;}
+@media screen and (max-width: 991px) {
+    .sun {width: 30px; height: 30px;}
+    .sunraysBg {width: 6px; height: 6px;}
+    .sunraysSm {width: 4px; height: 4px;}
+}
+
+
+.welcomeTitle {
+    position: absolute;
+    width: 100%;
+    top: -1%;
+    text-align: center;
+    font-family: 'Homemade Apple', cursive;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px #EEEEEE;
+    font-size: 0.9rem;
+}
+@media screen and (min-width: 576px) {
+    .welcomeTitle {font-size: 1.4rem;}
+}
+@media screen and (min-width: 768px) {
+    .welcomeTitle {font-size: 1.8rem;}
+}
+
+
+@media screen and (max-width: 575px) {
+    .notOnMobile {
+        display: none;
+    }
+}

@@ -1,0 +1,115 @@
+.projectsContent {
+    width: 100%;
+    /* height: 50px; */
+    /* background: aliceblue; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+.projectContainer {
+    width: 400px;
+    height: 270px;
+    border-radius: 15px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+@media screen and (max-width: 991px) {
+    .projectContainer {
+        width: 300px;
+        height: 200px;
+        margin: 0 20px 20px;
+    }
+}
+@media screen and (max-width: 575px) {
+    .projectContainer {
+        width: 250px;
+        height: 170px;
+        margin: 0 10px 20px;
+    }
+}
+
+.projectOverview {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    transition: all 0.3s;
+}
+.projectDetail {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    /* padding: 10px; */
+    overflow-y: auto;
+    background: #151C27;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.projectContainer:hover .projectOverview {
+    transform: scale(1.1);
+}
+.projectContainer:hover .projectDetail {
+    opacity: 1;
+}
+.prjTitle {
+    width: 100%;
+}
+.prjDesc {
+    width: 100%;
+}
+.prjViewMore {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+.prjViewMore > a > div {
+    width: 120px;
+    height: 40px;
+    line-height: 38px;
+    text-align: center;
+    font-family: 'Copse', serif;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+@media screen and (max-width: 991px) {
+    .prjViewMore > a > div {
+        width: 100px;
+        height: 35px;
+        line-height: 32px;
+    }
+}
+.prjViewMore > a > div:hover {
+    background: linear-gradient(to bottom, rgb(50, 64, 90) 20%, rgb(31, 40, 56));
+}
+.prjTitle {
+    font-size: 1.2em;
+    padding: 20px 8% 10px;
+    color: white;
+    font-family: 'Copse', serif;
+}
+.content p.prjDesc {
+    padding: 5px 8% 10px;
+    color: white;
+    font-family: 'Copse', serif;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+
+
+
+.project1 > .projectOverview {
+    background: url('../img/project1_overview.png') no-repeat center / cover;
+}
+
+
+
+
+
+
