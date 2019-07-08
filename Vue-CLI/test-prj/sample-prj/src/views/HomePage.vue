@@ -2,7 +2,10 @@
     <div id="wrap">
         <HeaderHome />
         <div class="homeContent">
-            <section id="aboutme">About Me</section>
+            <section id="aboutme">
+                <h2>About Me</h2>
+                <p data-aos="flip-right">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in, cumque ad facere aliquam sequi, corporis vero doloribus deleniti delectus nesciunt rerum. Libero, deleniti quam voluptatum minima animi soluta sit culpa nisi sed mollitia expedita! Fuga aspernatur illo delectus. Illo iste minus veritatis debitis ipsum nesciunt, repellendus fuga minima tenetur.</p>
+            </section>
             <section id="portfolio">Portfolio</section>
             <section id="posts">Posts</section>
             <section id="projects">Projects</section>

@@ -10,6 +10,8 @@
 
 
 <script>
+// import './js/aniview.js';
+
 import Footer from './components/Footer';
 window.$ = window.jQuery = require("jquery");
 
@@ -29,6 +31,7 @@ export default {
 <style lang="scss" scoped>
 @import './css/reset.css';
 @import './css/style.css';
+@import './css/lib_animate.css';
 
 </style>
 
