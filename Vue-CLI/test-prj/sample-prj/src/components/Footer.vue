@@ -62,5 +62,6 @@ footer {
     text-align: center;
     font-size: 2em;
     cursor: pointer;
+    z-index: 95;
 }
 </style>

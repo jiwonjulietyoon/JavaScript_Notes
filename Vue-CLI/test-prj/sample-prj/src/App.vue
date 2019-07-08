@@ -31,7 +31,7 @@ export default {
 <style lang="scss" scoped>
 @import './css/reset.css';
 @import './css/style.css';
-@import './css/lib_animate.css';
+// @import './css/lib_animate.css';
 
 </style>
 
