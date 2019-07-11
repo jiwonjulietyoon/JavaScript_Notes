@@ -6,32 +6,126 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .container {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            width: 90%;
-            margin: 0 auto;
-            height: 800px;
-            border: 1px solid;
+        * {
+            padding: 0; margin: 0;
+            box-sizing: border-box;
         }
-        .item {
-            width: 200px;
-            height: 150px;
-            border: 1px solid pink;
+        #wrap {
+            width: 100%;
+            height: 1000px;
+            border: 2px solid lightcoral;
+        }
+        .new {
+            width: 250px;
+            height: 200px;
+            line-height: 194px;
+            text-align: center;
+            /* border: 3px solid royalblue;
+            color: royalblue; */
+            margin: 30px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            box-shadow: inset 0 0 0 3px #58afd1;
+            color: #58afd1;
+            transition: color 0.25s 0.09s;
+            position: relative;
+        }
+        .new::before, .new::after {
+            border: 0 solid transparent;
+            content: '';
+            box-sizing: border-box;
+            pointer-events: none;
+            position: absolute;
+            width: 0;
+            height: 0;
+            bottom: 0;
+            right: 0;
+            border-radius: 5px;
+        }
+        .new::before {
+        border-bottom-width: 3px;
+        border-left-width: 3px;
+        }
+        .new::after {
+        border-top-width: 3px;
+        border-right-width: 3px;
+        }
+        .new:hover {
+        color: #ffe593;
+        }
+        .new:hover::before, .new:hover::after {
+        border-color: #ffe593;
+        transition: border-color 0s, width 0.25s, height 0.25s;
+        width: 100%;
+        height: 100%;
+        }
+        .new:hover::before {
+        transition-delay: 0s, 0s, 0.25s;
+        }
+        .new:hover::after {
+        transition-delay: 0s, 0.25s, 0s;
+        }
+
+        .btn {
+            width: 120px;
+            height: 40px;
+            line-height: 36px;
+            text-align: center;
+            margin: 30px;
+            transition: all 0.3s;
+            
+        }
+        .raise {
+            border: 2px solid royalblue;
+        }
+        .raise:hover {
+            border-color: dodgerblue;
+            box-shadow: 0 0.5em 0.5em -0.4em dodgerblue;
+            transform: translateY(-0.25em);
+        }
+
+
+
+        .btn2 {
+            width: 150px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            margin: 30px;
+            background: rgb(130, 160, 249);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+        .btn2::before {
+            content: '';
+            width: 30%;
+            height: 150%;
+            position: absolute;
+            right: -5%; top: -30%;
+            transform: rotate(-20deg);
+            background: rgb(156, 180, 255);
+            transition: all 0.3s;
+        }
+        .btn2:hover {
+            background: rgb(124, 154, 244);
+        }
+        .btn2:hover::before {
+            background: rgb(145, 172, 252);
+            width: 35%;
+        }
+        .btn2:active {
+            top: 2px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+    <div id="wrap">
+        <div class="new">+ New Portfolio</div>
+        <div class="btn raise">Sample</div>
+        <div class="btn2">Login</div>
     </div>
 </body>
 </html>
