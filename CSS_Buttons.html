@@ -131,7 +131,7 @@
       cursor: pointer;
       display: inline-block;
       padding: 5px 15px;
-      border: 1.5px solid #00A2FF;
+      border: 2px solid #00A2FF;
       background-image: linear-gradient(to right, #00A2FF 50%, transparent 50%);
       background-size: 200% 100%;
       background-position: right;
@@ -175,8 +175,45 @@
     .dbl-border-btn {
       cursor: pointer;
       display: inline-block;
-      padding: 5px 20px 12px 25px;
-      border: 1.5px solid white;
+      position: relative;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1.5px solid #00A2FF;
+      color: #00A2FF;
+      white-space: nowrap;
+      transition: all 0.3s;
+    }
+    .dbl-border-btn::before, .dbl-border-btn::after {
+      content: "";
+      box-sizing: border-box;
+      width: 95%;
+      height: 135%;
+      border: 0px solid #00A2FF;
+      transition: all 0.3s;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+    .dbl-border-btn::before {
+      border-top-width: 1.5px;
+      border-bottom-width: 1.5px;
+      transform: translate(-50%, -50%) scaleX(0);
+      transform-origin: left;
+    }
+    .dbl-border-btn::after {
+      border-left-width: 1.5px;
+      border-right-width: 1.5px;
+      transform: translate(-50%, -50%) scaleY(0);
+      transform-origin: top;
+    }
+    .dbl-border-btn:hover {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    .dbl-border-btn:hover::before {
+      transform: translate(-50%, -50%) scaleX(1);
+    }
+    .dbl-border-btn:hover::after {
+      transform: translate(-50%, -50%) scaleY(1);
     }
 
 
@@ -350,7 +387,7 @@
   cursor: pointer;
   display: inline-block;
   padding: 5px 15px;
-  border: 1.5px solid #00A2FF;
+  border: 2px solid #00A2FF;
   background-image: linear-gradient(to right, #00A2FF 50%, transparent 50%);
   background-size: 200% 100%;
   background-position: right;
@@ -405,10 +442,57 @@
 
     <section>
       <h2>Double Border Button</h2>
-      <div class="btn-box" style="background: rgba(0, 0, 0, 0.5)">
+      <div class="btn-box">
         <div class="dbl-border-btn">Double Border</div>
       </div>
-
+      <div>
+        <h3>HTML</h3>
+        <pre><code class="language-html">&lt;div class="dbl-border-btn"&gt;Double Border&lt;/div&gt;</code></pre>
+        <h3>CSS</h3>
+        <pre><code class="language-css">.dbl-border-btn {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1.5px solid #00A2FF;
+  color: #00A2FF;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+.dbl-border-btn::before, .dbl-border-btn::after {
+  content: "";
+  box-sizing: border-box;
+  width: 95%;
+  height: 135%;
+  border: 0px solid #00A2FF;
+  transition: all 0.3s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.dbl-border-btn::before {
+  border-top-width: 1.5px;
+  border-bottom-width: 1.5px;
+  transform: translate(-50%, -50%) scaleX(0);
+  transform-origin: left;
+}
+.dbl-border-btn::after {
+  border-left-width: 1.5px;
+  border-right-width: 1.5px;
+  transform: translate(-50%, -50%) scaleY(0);
+  transform-origin: top;
+}
+.dbl-border-btn:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dbl-border-btn:hover::before {
+  transform: translate(-50%, -50%) scaleX(1);
+}
+.dbl-border-btn:hover::after {
+  transform: translate(-50%, -50%) scaleY(1);
+}</code></pre>
+      </div>
     </section>
 
 
