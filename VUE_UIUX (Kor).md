@@ -1,5 +1,7 @@
 # Vue.js, SCSS, UI/UX
 
+-by Jiwon
+
 
 
 ## Vue 프로젝트 생성하기
@@ -7,11 +9,23 @@
 1. `vue create [프로젝트 이름]`  으로 프로젝트 생성
 2. Please pick a preset => Manually select features 선택
 3. Router, Vuex, Linter/Formatter 등 프로젝트에서 필요한 기능과 함께 __CSS Pre-processors__ 도 선택
+   
    - CSS Pre-processors 의 종류 중에서는 __Node__ SCSS 선택
 4. 나머지 설정은 디폴트값을 선택해도 무방
 5. `vue add vuetify`로 Vuetify도 추가해준다. 
    - (Vuetify는 실제로 많이 사용하지 않게 되더라도 일단 깔아주는 게 좋은 것 같음. 특히 모달 등의 기능을 사용할 때는 처음부터 짜는 것보다 vuetify활용하는 게 압도적으로 편리하므로)
+   
    - Vuetify의 최소 사용 조건은 `App.vue` 파일의 `<template>` 태그 바로 안에 `<v-app> ... </v-app>` 태그를 써줌으로써, `<router-view />` 등 모든 프로젝트 요소를 `<v-app>` 안에 포함하는 것이다.
+   
+   - App.vue 예시 (router 사용할 경우)
+   
+     > ```html
+     > <template>
+     >       <v-app>
+     >        	<router-view />
+     >       </v-app>
+     > </template>
+     > ```
 
 
 
@@ -247,7 +261,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 
 웹사이트에서 (user interaction과 상관 없이) 상시 돌아가고 있는 애니메이션보다, 사용자의 움직임에 맞추어 애니메이션을 주는 게 사용자 경험 측면에서 더 효과적인 것 같다.
 
-아래에 소개할 Vue.js 애니메이션 라이브러리 2가지는 비교적 간편한 설치 및 세팅이 가능하다.
+아래에 소개할 Vue.js 애니메이션 라이브러리는 비교적 간편한 설치 및 세팅이 가능하다.
 
 
 
@@ -272,14 +286,14 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 > ...
 > 
 > new Vue({
->     ...
->     created() {
->     	AOS.init({
->     		once: true
+>  ...
+>  created() {
+>  	AOS.init({
+>  		once: true
 > 		});
 > 	},
->     ...
->     render: h => h(App)
+>  ...
+>  render: h => h(App)
 > }).$mount("app");
 > ```
 >
@@ -287,6 +301,8 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >   - 페이지를 reload하면 애니메이션을 볼 수 있다.
 >
 > [사용] 스크롤 애니메이션을 적용하고 싶은 요소에 `data-aos="애니메이션 이름"` 속성을 추가해주면 된다. 구체적인 예시 및 가능한 애니메이션 이름은 [Demo](<http://michalsnik.github.io/aos/>) 에서 확인.
+>
+> [주의] 이 라이브러리는 CSS의 `transform: translate()` 속성을 활용하는 것으로 추정된다. 따라서 이미 `transform` 속성이 적용돼 있는 요소에 `AOS`를 추가로 적용하고자 하면 원하지 않은 결과가 나올 수도 있다. 이럴 때는 애니메이션을 적용하고자 하는 요소를 둘러싼 부모 container 요소를 별도로 생성하고, 이 부모 container 요소에 `AOS`를 적용하면 된다.
 
 
 
@@ -323,3 +339,37 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 > ```
 >
 > - `name` 부분은 적용할 transition 효과 이름으로, 자세한 내용은  [Demo](<https://orlandster.github.io/vue-page-transition/#/>) 참고 바람
+
+
+
+### Vue Sequential Entrance
+
+> [Documentation](<https://vuejsexamples.com/vuejs-plugin-for-creating-epic-sequential-animation-entrances/>) | [Demo](<https://codesandbox.io/s/r4yov1w80n>)
+>
+> [개요] v-for 등의 결과물인 요소들의 리스트가 페이지에 렌더링될 때 적용되는 애니메이션. 일렬(가로 또는 세로)로 나열된 요소들에 적용하기 편리하다.
+>
+> [설치]
+>
+> ```
+> npm install vue-sequential-entrance --save
+> ```
+>
+> [세팅] main.js
+>
+> ```javascript
+> import SequentialEntrance from 'vue-sequential-entrance'
+> import 'vue-sequential-entrance/vue-sequential-entrance.css'
+> Vue.use(SequentialEntrance);
+> ```
+>
+> [사용]
+>
+> v-for이 사용된 요소를 `<sequential-entrance>` 로 감싸주면 된다.
+>
+> ```html
+> <sequential-entrance>
+>     <div class="list" v-for="element in elements">{{ element }}</div>
+> </sequential-entrance>
+> ```
+>
+> 애니메이션 방향은 4가지이며 (`fromTop`, `fromRight`, `fromBottom`, `fromLeft`), `<sequential-entrance fromTop>` 와 같이 지정하면 된다. (디폴트로 `fromRight`이 지정되어 있다)
