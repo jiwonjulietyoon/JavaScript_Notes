@@ -357,8 +357,9 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 > [세팅] main.js
 >
 > ```javascript
-> import SequentialEntrance from 'vue-sequential-entrance'
-> import 'vue-sequential-entrance/vue-sequential-entrance.css'
+> import SequentialEntrance from 'vue-sequential-entrance';
+> import 'vue-sequential-entrance/vue-sequential-entrance.css';
+> 
 > Vue.use(SequentialEntrance);
 > ```
 >
@@ -368,8 +369,52 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > ```html
 > <sequential-entrance>
->     <div class="list" v-for="element in elements">{{ element }}</div>
+>  <div class="list" v-for="element in elements">{{ element }}</div>
 > </sequential-entrance>
 > ```
 >
 > 애니메이션 방향은 4가지이며 (`fromTop`, `fromRight`, `fromBottom`, `fromLeft`), `<sequential-entrance fromTop>` 와 같이 지정하면 된다. (디폴트로 `fromRight`이 지정되어 있다)
+
+
+
+### +) JQuery
+
+> 일부 애니메이션 효과는 Vue에서 기본적으로 제공되는 것보다는 jQuery를 사용하는 게 편할 때도 있는데 (e.g 특정 위치로 스크롤하기), 이때를 대비한 Vue에서의 jQuery  사용 방법이다.
+>
+> [설치]
+>
+> ```
+> npm install --save jquery
+> npm install --save-dev expose-loader
+> ```
+>
+> [세팅] 
+>
+> main.js
+>
+> ```javascript
+> import 'expose-loader?$!expose-loader?jQuery!jquery';
+> window.$ = window.jQuery = require("jquery");
+> ```
+>
+> .eslintrc.js 에 추가
+>
+> ```javascript
+> globals: {
+>   "$": true,
+>   "jQuery": true
+> }
+> ```
+>
+> 기타 jQuery를 사용할 `.js` 파일들
+>
+> ```javascript
+> import $ from 'jquery';
+> ```
+>
+> [사용]
+>
+> 여기까지 하면 프로젝트 내에서 jQuery를 전역적으로 사용할 수 있다. JQuery가 잘 설치되었는지 확인하려면 프로젝트를 run한 후 콘솔창에서 `$(window).height()` 을 입력한다. 이때 브라우저 윈도우의 현재 높이가 출력된다면 jQuery가 잘 설치된 것이다.
+
+
+
