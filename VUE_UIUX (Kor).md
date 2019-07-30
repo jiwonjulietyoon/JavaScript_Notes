@@ -334,11 +334,12 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > ```html
 > <vue-page-transition name="flip-y">
->     <router-view />
+>  <router-view :key="$route.fullPath" />
 > </vue-page-transition>
 > ```
 >
 > - `name` 부분은 적용할 transition 효과 이름으로, 자세한 내용은  [Demo](<https://orlandster.github.io/vue-page-transition/#/>) 참고 바람
+> - 만약 transition을 적용할 `<router-view />` 가 동일한 컴포넌트를 활용할 경우 (parameter만 변동된다든지), `:key="$route.fullPath"` 를 속성으로 추가해준다. 이 속성이 없으면 파라미터에 변동이 있어도 라우터 자체는 동일한 것으로 간주되어 transition이 해당 컴포넌트가 로딩되는 최초 한 번만 실행된다.
 
 
 
