@@ -217,6 +217,148 @@
     }
 
 
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    .border-fill-btn {
+      width: 300px;
+      height: 150px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+      box-shadow: inset 0 0 0 4px #9AAEBB;
+      color: #9AAEBB;
+      transition: color 0.25s 0.09s;
+    }
+    .border-fill-btn span {
+      white-space: nowrap;
+      font-size: 1.5em;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .border-fill-btn::before,
+    .border-fill-btn::after {
+      content: "";
+      box-sizing: border-box;
+      pointer-events: none;
+      position: absolute;
+      width: 0;
+      height: 0;
+      bottom: 0;
+      right: 0;
+      border: 0 solid transparent;
+      border-radius: 5px;
+    }
+    .border-fill-btn::before {
+      border-bottom-width: 4px;
+      border-left-width: 4px;
+    }
+    .border-fill-btn::after {
+      border-top-width: 4px;
+      border-right-width: 4px;
+    }
+    .border-fill-btn:hover {
+      color: #00A2FF;
+    }
+    .border-fill-btn:hover::before,
+    .border-fill-btn:hover::after {
+      width: 100%;
+      height: 100%;
+      border-color: #00A2FF;
+      transition: border-color 0s, width 0.25s, height 0.25s;
+    }
+    .border-fill-btn:hover::before {
+      transition-delay: 0s, 0s, 0.25s;
+    }
+    .border-fill-btn:hover::after {
+      transition-delay: 0s, 0.25s, 0s;
+    }
+
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    .bobbing-btn {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 50%;
+      background: #00A2FF;
+      position: relative;
+    }
+    .bobbing-btn:hover {
+      animation: bobbing 0.7s ease-in-out infinite alternate;
+    }
+    .bobbing-btn i {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+    @keyframes bobbing {
+      0% {transform: translateY(0);}
+      100% {transform: translateY(-5px);}
+    }
+
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    .glint-btn {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 5px;
+      background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);
+      position: relative;
+    }
+    .glint-btn:hover {
+      animation: glint 1s ease infinite;
+    }
+    .glint-btn i {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+    @keyframes glint {
+      0% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);}
+      2% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 20%);}
+      4% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 20%, #00A2FF 40%);}
+      6% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 20%, #00C0FF 40%, #00A2FF 60%);}
+      8% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 20%, #00D8E6 40%, #00C0FF 60%, #00A2FF 80%);}
+      10% {background: linear-gradient(to top right, #00A2FF 20%, #00C0FF 40%, #00D8E6 60%, #00C0FF 80%, #00A2FF 100%);}
+      12% {background: linear-gradient(to top right, #00A2FF 40%, #00C0FF 60%, #00D8E6 80%, #00C0FF 100%, #00A2FF 100%);}
+      14% {background: linear-gradient(to top right, #00A2FF 60%, #00C0FF 80%, #00D8E6 100%, #00C0FF 100%, #00A2FF 105%);}
+      16% {background: linear-gradient(to top right, #00A2FF 80%, #00C0FF 100%, #00D8E6 100%, #00C0FF 100%, #00A2FF 100%);}
+      18% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);}
+      100% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);}
+    }
+
+
+
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    .jiggle-btn {
+      width: 50px;
+      height: 50px;
+      position: relative;
+    }
+    .jiggle-btn i {
+      cursor: pointer;
+      transform-origin: bottom;
+    }
+    .jiggle-btn i:hover {
+      animation: jiggle 0.15s linear 0.2s 4 forwards;
+    }
+    @keyframes jiggle {
+      0% {transform: rotate(0);}
+      25% {transform: rotate(5deg);}
+      75% {transform: rotate(-5deg);}
+      100% {transform: rotate(0);}
+    }
+    
+
 
     
   </style>
@@ -494,6 +636,206 @@
 }</code></pre>
       </div>
     </section>
+
+    <!-- ************************************************************************* -->
+
+    <section>
+      <h2>Border Fill Button</h2>
+      <div class="btn-box">
+        <div class="border-fill-btn">
+          <span>Border Fill</span>
+        </div>
+      </div>
+      <div>
+        <h3>HTML</h3>
+        <pre><code class="language-html">&lt;div class="border-fill-btn"&gt;
+  &lt;span&gt;Border Fill&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        <h3>CSS</h3>
+        <pre><code class="language-css">.border-fill-btn {
+  width: 300px;
+  height: 150px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 4px #9AAEBB;
+  color: #9AAEBB;
+  transition: color 0.25s 0.09s;
+}
+.border-fill-btn span {
+  white-space: nowrap;
+  font-size: 1.5em;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.border-fill-btn::before,
+.border-fill-btn::after {
+  content: "";
+  box-sizing: border-box;
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  right: 0;
+  border: 0 solid transparent;
+  border-radius: 5px;
+}
+.border-fill-btn::before {
+  border-bottom-width: 4px;
+  border-left-width: 4px;
+}
+.border-fill-btn::after {
+  border-top-width: 4px;
+  border-right-width: 4px;
+}
+.border-fill-btn:hover {
+  color: #00A2FF;
+}
+.border-fill-btn:hover::before,
+.border-fill-btn:hover::after {
+  width: 100%;
+  height: 100%;
+  border-color: #00A2FF;
+  transition: border-color 0s, width 0.25s, height 0.25s;
+}
+.border-fill-btn:hover::before {
+  transition-delay: 0s, 0s, 0.25s;
+}
+.border-fill-btn:hover::after {
+  transition-delay: 0s, 0.25s, 0s;
+}</code></pre>
+      </div>
+    </section>
+
+        <!-- ************************************************************************* -->
+
+    <section>
+        <h2>Bobbing Button</h2>
+        <div class="btn-box">
+          <div class="bobbing-btn">
+            <i class="material-icons">keyboard_arrow_up</i>
+          </div>
+        </div>
+        <div>
+          <h3>HTML</h3>
+          <pre><code class="language-html">&lt;div class="bobbing-btn"&gt;
+  &lt;i class="material-icons"&gt;keyboard_arrow_up&lt;/i&gt;
+&lt;/div&gt;</code></pre>
+          <h3>CSS</h3>
+          <pre><code class="language-css">.bobbing-btn {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #00A2FF;
+  position: relative;
+}
+.bobbing-btn:hover {
+  animation: bobbing 0.7s ease-in-out infinite alternate;
+}
+.bobbing-btn i {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+@keyframes bobbing {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(-5px);}
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- ************************************************************************* -->
+
+    <section>
+      <h2>Glint Button</h2>
+      <div class="btn-box">
+        <div class="glint-btn">
+          <i class="material-icons">flash_on</i>
+        </div>
+      </div>
+      <div>
+        <h3>HTML</h3>
+        <pre><code class="language-html">&lt;div class="glint-btn"&gt;
+  &lt;i class="material-icons"&gt;flash_on&lt;/i&gt;
+&lt;/div&gt;</code></pre>
+        <h3>CSS</h3>
+        <pre><code class="language-css">.glint-btn {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 5px;
+  background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);
+  position: relative;
+}
+.glint-btn:hover {
+  animation: glint 1s ease infinite;
+}
+.glint-btn i {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+@keyframes glint {
+  0% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);}
+  2% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 20%);}
+  4% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 20%, #00A2FF 40%);}
+  6% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 20%, #00C0FF 40%, #00A2FF 60%);}
+  8% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 20%, #00D8E6 40%, #00C0FF 60%, #00A2FF 80%);}
+  10% {background: linear-gradient(to top right, #00A2FF 20%, #00C0FF 40%, #00D8E6 60%, #00C0FF 80%, #00A2FF 100%);}
+  12% {background: linear-gradient(to top right, #00A2FF 40%, #00C0FF 60%, #00D8E6 80%, #00C0FF 100%, #00A2FF 100%);}
+  14% {background: linear-gradient(to top right, #00A2FF 60%, #00C0FF 80%, #00D8E6 100%, #00C0FF 100%, #00A2FF 105%);}
+  16% {background: linear-gradient(to top right, #00A2FF 80%, #00C0FF 100%, #00D8E6 100%, #00C0FF 100%, #00A2FF 100%);}
+  18% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);}
+  100% {background: linear-gradient(to top right, #00A2FF 0%, #00C0FF 0%, #00D8E6 0%, #00C0FF 0%, #00A2FF 0%);}
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- ************************************************************************* -->
+
+    <section>
+      <h2>Jiggle Button</h2>
+      <div class="btn-box">
+        <div class="jiggle-btn">
+          <i class="material-icons">delete</i>
+        </div>
+      </div>
+      <div>
+        <h3>HTML</h3>
+        <pre><code class="language-html">&lt;div class="jiggle-btn"&gt;
+  &lt;i class="material-icons"&gt;delete&lt;/i&gt;
+&lt;/div&gt;</code></pre>
+        <h3>CSS</h3>
+        <pre><code class="language-css">.jiggle-btn {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+.jiggle-btn i {
+  cursor: pointer;
+  transform-origin: bottom;
+}
+.jiggle-btn i:hover {
+  animation: jiggle 0.15s linear 0.2s 4 forwards;
+}
+@keyframes jiggle {
+  0% {transform: rotate(0);}
+  25% {transform: rotate(5deg);}
+  75% {transform: rotate(-5deg);}
+  100% {transform: rotate(0);}
+}</code></pre>
+      </div>
+    </section>
+
+
+
+
 
 
     <div>
