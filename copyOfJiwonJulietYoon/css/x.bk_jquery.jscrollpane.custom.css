@@ -8,7 +8,7 @@
 
 /* Custom Style */
 
-.jspContainer {
+/* .jspContainer {
 	overflow: hidden;
 	position: relative;
 }
@@ -67,6 +67,6 @@
 }
 
 /* Yuk! CSS Hack for IE6 3 pixel bug :( */
-* html .jspCorner {
+/* * html .jspCorner {
 	margin: 0 -3px 0 0;
-}
+} */

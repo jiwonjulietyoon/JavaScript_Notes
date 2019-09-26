@@ -18,9 +18,9 @@ a, a:hover {
     color: initial;
     text-decoration: none;
 } */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     display: none;
-}
+} */
 
 /* body {
     background-color: #1d1f20;
