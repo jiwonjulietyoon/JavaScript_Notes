@@ -133,15 +133,35 @@ In terminal:
 
    ```python
    # Import Modules
+   import os
+   from threading import Thread
+   import time
+   
+   from flask import Flask
+   from slack import WebClient
+   from slackeventsapi import SlackEventAdapter
+   
+   
    import firebase_admin
    from firebase_admin import credentials
    from firebase_admin import firestore
-   import time
+   
    
    # Initialize Firestore
    cred = credentials.Certificate('key.json')
    firebase_admin.initialize_app(cred)
    db = firestore.client()
+   
+   
+   # Slack API App Credentials
+   SLACK_TOKEN = os.getenv("SLACK_TOKEN")  # Client Secret
+   SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET")  # Signing Secret
+   
+   app = Flask(__name__)
+   
+   slack_events_adaptor = SlackEventAdapter(SLACK_SIGNING_SECRET, "/listening", app)
+   slack_web_client = WebClient(token=SLACK_TOKEN)
+   
    
    ##############################################################################
    
@@ -169,6 +189,15 @@ In terminal:
            channel=channel,
            text=getChatbotResponse(text)
        )
+   
+       
+   @app.route("/", methods=["GET"])
+   def index():
+       return "<h1>Server is ready.</h1>"
+   
+   
+   if __name__ == '__main__':
+       app.run()
    ```
 
    - Store chatbot's response in Firestore `conversations` collection. Data modeling is as follows:
