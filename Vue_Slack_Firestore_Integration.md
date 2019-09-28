@@ -1,18 +1,618 @@
 # Building a Chatbot with Slack, Firestore, and Vue.js
 
+September 2019, Jiwon Juliet Yoon
+
 ### Intro
 
-This post mostly focuses on the **front-end web** aspect of building a (KakaoTalk-cloned) chatbot, as well as the overall process of **integrating Slack, Firestore, and Vue.js**. 
+This post mostly focuses on the **front-end web** aspect of building a KakaoTalk clone chatbot, as well as the overall process of **integrating Slack, Firestore, and Vue.js**. (This post does NOT discuss the chatbot training process, i.e the core AI & machine learning algorithm that constructs a relevant chatbot response based on the user input.)
 
-This post does NOT discuss chatbot training with AI/machine learning, i.e the core model that constructs a relevant chatbot response based on the user input.
+The initial goal of this chatbot project was to enable conversations between users and bots via Slack, but I wanted to build a separate chatting platform so that I could have more flexibility with the UI/UX. Hence the Kakao chatroom clone was built as a side project.
 
-Conversations between the user and the chatbot will be visually rendered on a Vue CLI project (the Kakao chatroom clone), but the actual conversation logic will be running via Slack API, Python, and Flask.
+In summary, this post will primarily demonstrate how to:
 
-The initial goal of this chatbot project was to enable conversations between users and bots via Slack, but I wanted to build a separate chatting platform so that I could have more flexibility with the UI/UX. Hence the Kakao chatroom clone was built.
+- integrate Slack and Firestore via Slack incoming webhooks and Cloud Functions (Firestore triggers)
+- render realtime Firestore data via the onSnapshot method
+- write data to Firestore via Python and JavaScript (Vue.js)
+- create a KakaoTalk chatroom clone UI/UX with Vue.js and CSS (SCSS)
+
+<br>
 
 ### Process Overview
 
+> Conversations between the user and the chatbot will be visually rendered on a Vue CLI project (the Kakao chatroom clone), but the actual conversation logic will be running via Slack API, Python, and Flask.
+>
+> You will need:
+>
+> - **Vue CLI project**: Firestore trigger function, Kakao chatroom clone
+>
+> - **Python `app.py`**: Slack bot mentions/response handler, machine learning trained chatbot model
+>
+> - **Firestore**: user-chatbot conversation data
+>
+>   - `questions` collection: user input only
+>
+>   - `conversations` collection: user input *and* slackbot responses
 
 
 
+![Process Overview](./img/slack_firestore_integration_process_overview.png)
 
+1. User enters a message, which is stored into both Firestore `questions` and `conversations` collections.
+2. This message appears in the Kakao-clone chatroom, which renders Firestore `conversations` collection data in realtime.
+3. The same message is also stored in Firestore `questions` collection, which is linked to the Firestore trigger function. Whenever a new document is added to this collection, Firestore will trigger the Slack incoming webhook.
+4. The message is posted to a pre-designated Slack channel, mentioning a pre-designated Slack bot.
+5. Slack chatbot makes a response according to the trained model. This response is also stored in the Firestore `conversations` collection.
+6. Chatbot response is synced realtime into the Kakao-clone chatroom.
+
+<br>
+
+### Step 1) Create new Vue CLI project
+
+In terminal:
+
+1. `npm i -g @vue/cli`
+2. `vue create slackbot-chats` (where 'slackbot-chats' is the project name)
+
+	> As for project features, I usually include Router, Vuex, CSS Pre-processors, and Linter/Formatter. Note that this project will use **Node SCSS** as CSS Pre-processors.
+
+3. `vue add vuetify`
+
+	> Optional step. This project *does* use Vuetify, although it's not a fundamental component.
+
+<br>
+
+### Step 2) Set up Slack incoming webhook
+
+1. Create a new Slack app (Slack chatbot) at <https://api.slack.com/apps>
+2. Activate Incoming Webhooks
+3. Add new webhook to workspace. Select specific Slack channel. When a new document is added to the Firestore `questions` collection, Slack will post a notification message in this channel.
+4. Copy and save the webhook url somewhere, preferably as an environment variable. This url will be used to write Cloud Functions (Firestore trigger).
+
+<br>
+
+### Step 3) Deploy Firestore trigger cloud function
+
+> Note that Firestore triggers are still in Beta, as of September 2019.
+>
+> Also, Firestore triggers are NOT supported on the free spark plan, so the Firebase project billing plan needs to be upgraded. I upgraded mine to Blaze plan (start free, pay as you go).
+
+1. Create new Firebase project
+
+   - Set Google Cloud Platform (GCP) resource location 
+     - `asia-northeast2` (Osaka, Japan) is closest for Seoul
+   - Create Firestore Database (start in test mode)
+
+2. In the Vue project terminal:
+
+   - `npm install -g firebase-tools --save`
+   - `firebase login`
+   - `firebase init`
+   - `firebase deploy`
+
+   > I mostly went by the default feature settings.
+
+3. A `functions/index.js` file will have been created in the Vue project directory. Add the following [Firestore trigger background function](<https://firebase.google.com/docs/functions/firestore-events>):
+
+   ```javascript
+   exports.notifyNewQuestion = functions.firestore
+       .document('/questions/{questionID}')
+       .onCreate((snap, context) => {
+           const newValue = snap.data();
+           const question = newValue.question;
+           return request.post(
+               "[Slack Webhook URL]",
+               {json: {text: `<@SlackBotID> ${question}`}}
+           );
+       });
+   ```
+
+   This function detects any new document in the Firestore `questions` collection, and accordingly posts a notification message in Slack.
+
+   - `notifyNewQuestion` => name of this function (arbitrary)
+   - `questions` => name of the Firestore collection that we want to watch.
+     - `'/questions/{questionID}'` => wildcard pattern to detect any new document in the collection. `questionID` was arbitrary.
+   - Insert the Slack webhook URL copied from Step 2
+   - To include Slackbot mentions as part of the message to post in Slack via webhook, use the following format: `<@SlackBotID>`, e.g) `<@UM61N25K9>`. Refer to Step 4-2 to find out how to retrieve your bot's unique ID.
+
+4. In the Vue project terminal, move to the `functions/` directory and then run `npm i request --save`
+
+5. Run `firebase deploy --only functions` in the Vue project terminal to deploy the above background function.
+
+   - The function will have been added to Firebase Functions.
+   - If you need to modify the trigger function, run `firebase deploy --only functions` again after making changes to the `functions/index.js` file.
+
+<br>
+
+### Step 4) Set up `app.py` to handle Slackbot mentions
+
+> This `app.py` should preferably be separate from the Vue CLI project, as both need to be simultaneously run on different servers. I used Ngrok to run `app.py`. 
+
+1. In Firebase project settings, click on the 'Service accounts' tab. Select 'Python' for the Admin SDK configuration snippet, then click 'Generate new private key'. Save this file as `key.json` into the same directory level as `app.py`.
+
+2. In `app.py`:
+
+   ```python
+   # Import Modules
+   import firebase_admin
+   from firebase_admin import credentials
+   from firebase_admin import firestore
+   import time
+   
+   # Initialize Firestore
+   cred = credentials.Certificate('key.json')
+   firebase_admin.initialize_app(cred)
+   db = firestore.client()
+   
+   ##############################################################################
+   
+   def getChatbotResponse(question):
+       response = trained_model(question)  # AI / machine learning part goes here
+       
+       ref = db.collection('conversations')  # store chatbot answer in Firestore
+       ref.document().set({
+           'created_at': time.time()*1000,
+           'slackbot': True,
+           'message': response,
+           'username': 'SlackBotName'
+       })
+       return response
+       
+   
+   # Triggered when Slackbot is mentioned in any Slack channel
+   @slack_events_adaptor.on("app_mention")
+   def app_mentioned(event_data):
+       channel = event_data["event"]["channel"]
+       bot_name = event_data['authed_users'][0]
+       text = event_data["event"]["text"].replace(f"<@{bot_name}>", "")
+       
+       slack_web_client.chat_postMessage(  # post response to the same channel
+           channel=channel,
+           text=getChatbotResponse(text)
+       )
+   ```
+
+   - Store chatbot's response in Firestore `conversations` collection. Data modeling is as follows:
+     - `created_at` : Number (unix epoch time in milliseconds, e.g 1569396265806)
+     - `slackbot` : Boolean (`True` if message sender is Slackbot, otherwise `False`)
+     - `message` : String
+     - `username` : String
+   - `bot_name` will give you the unique ID of the particular Slackbot, e.g) UM61N25K9
+
+> How to run `app.py` via Ngrok (Windows version):
+>
+> 1. In terminal, run `python app.py`
+> 2. Run ngrok.exe, and in the ngrok terminal run `ngrok http 5000`. Copy the http address.
+> 3. Visit [Slack API](https://api.slack.com) and click on your app's Event Subscriptions feature.  Activate 'Enable Events', and enter the http address + `/listening` as the Request URL, e.g) `http://522f337b.ngrok.io/listening`. In the 'Subscribe to Bot Events' section, add the `app_mention` event. Save changes.
+
+<br>
+
+### Step 5) Clone KakaoTalk on the Vue project
+
+> DISCLAIMER! The following is a very rough version. I didn't have much time to spare on the clone coding part, so the CSS (and SCSS) are not perfectly tidied up yet (as of September 28, 2019).
+
+**Directory architecture for `/src/`** (major files only)
+
+```
+assets/
+components/
+css/
+	reset.css
+firebase/
+	config.js
+	firebase.js
+views/
+	Home.vue    => Kakao chatroom clone component
+App.vue
+main.js
+router.js
+```
+
+**firebase/config.js**
+
+```javascript
+// Firebase project settings => Add web app => Select "Config" for Firebase SDK snippet
+
+export default {
+  apiKey: "[FIREBASE API KEY]",
+  authDomain: "[FIREBASE PROJECT NAME].firebaseapp.com",
+  databaseURL: "https://[FIREBASE PROJECT NAME].firebaseio.com",
+  projectId: "[FIREBASE PROJECT NAME]",
+  storageBucket: "[FIREBASE PROJECT NAME].appspot.com",
+  messagingSenderId: "111111111",
+  appId: "[APP ID]"
+}
+```
+
+**firebase/firebase.js**
+
+```javascript
+import firebase from 'firebase'
+import 'firebase/firestore'
+import firebaseConfig from './config'
+
+const firebaseApp = firebase.initializeApp(firebaseConfig)
+export default firebaseApp.firestore()
+```
+
+**App.vue**
+
+```vue
+<template>
+  <v-app>
+    <router-view />
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'App',
+};
+</script>
+
+<style lang="scss" scoped>
+@import "./css/reset.css";
+</style>
+```
+
+**reset.css** (what I normally use for my Vue projects)
+
+```css
+html, body, div, span, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a,
+del, em, img, ins, q, s, 
+small, strike, strong, sub, sup, 
+b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header,
+menu, nav, section, summary {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+a, a:hover {
+	color: initial;
+	text-decoration: none;
+}
+div:before, div:after, span:before, span:after {
+    content: "";
+}
+ol, ul {
+    list-style: none;
+}
+```
+
+**views/Home.vue**
+
+```vue
+<template>
+  <div id="wrap">
+    <div class="chatContainer">
+      <div class="botInfo">
+        <div>
+          <img class="botImg" src="IMAGE URL for SLACK BOT PROFILE">
+        </div>
+        <div class="txt">
+          Slack Bot
+        </div>
+      </div>
+      <div class="messageContainer" id="scroll">
+        <div v-for="c in conversations" :key="c.id">
+          <div class="message" 
+            :class="c.slackbot ? 'botMessage' : 'userMessage'"
+          >
+            <div class="profImg">
+              <img src="IMAGE URL for SLACK BOT PROFILE">
+            </div>
+            <div class="msgContent">
+              <div>{{c.message}}</div>
+            </div>
+            <div class="msgTime">
+              <div
+                :title="full_date(c)"
+              >
+                {{get_time(c)}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sendMessage">
+        <v-form
+          ref="form"
+          v-model="valid"
+        >
+          <div class="inputContainer">
+            <v-textarea 
+              rows=3 
+              autofocus
+              v-model="message"
+              :rules="msgRules"
+              @keydown.enter="handler"
+            />
+          </div>
+          <div class="btnContainer">
+            <button @click="sendMsg" class="sendBtn" :disabled="!valid">Send</button>
+          </div>
+        </v-form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import firestore from "@/firebase/firebase";
+import firebase from "firebase/app";
+export default {
+  data() {
+    return {
+      // Sending New Messages/Questions
+      valid: true,
+      msgRules: [v => !!v || ""],
+      message: "",
+      // Rendering chat history
+      conversations: []
+    }
+  },
+  watch: {
+    conversations() {
+      this.scrollToBottom();
+    }
+  },
+  methods: {
+    sendMsg() {
+      let now = new Date();
+      firestore.collection('conversations')
+        .add({
+          created_at: now.getTime(),
+          slackbot: false,
+          message: this.message,
+          username: "USERNAME"
+        });
+      firestore.collection('questions')
+        .add({
+          question: this.message
+        });
+      this.message = "";
+    },
+    handler(e) {
+      if (e.keyCode === 13 && !e.shiftKey) {
+        e.preventDefault();
+        this.sendMsg();
+      }
+    },
+    full_date(c) {
+      if (c.created_at) {
+        const date = new Date(c.created_at);
+        return String(date).split("GMT")[0];
+      }
+      else {
+        const date = new Date();
+        return String(date).split("GMT")[0];
+      }
+    },
+    get_time(c) {
+      if (c.created_at) {
+        const date = new Date(c.created_at);
+        let h = date.getHours();
+        let m = date.getMinutes();
+        let ampm = "AM";
+        if (h > 12) {
+          h -= 12;
+          ampm = "PM"
+        }
+        return `${h}:${m} ${ampm}`
+      }
+      else {
+        const date = new Date();
+        return `${date.getHours()}:${date.getMinutes()}`
+      }
+      
+    },
+    scrollToBottom() {
+      const elem = document.getElementById('scroll')
+      let height = elem.scrollHeight;
+      elem.scrollTop = height + 100;
+    }
+  },
+  created() {
+    firestore.collection('conversations').orderBy("created_at")
+      .onSnapshot(snapshot => {
+        let changes = snapshot.docChanges();
+        changes.forEach(change => {
+          if (change.type === "added") {
+            this.conversations.push(change.doc.data());
+          }
+        })
+      });
+  },
+  mounted() {
+    this.scrollToBottom();
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/css/style.scss";
+#wrap {
+  width: 100%;
+  background: linear-gradient(to left, #0F2027, #203A43);
+}
+.chatContainer {
+  width: 500px;
+  height: 100vh;
+  margin: 0 auto;
+  background: white;
+  @include maxWidth(500) {
+    width: 100%;
+  }
+  overflow: hidden;
+}
+.botInfo {
+  height: 60px;
+  background: #A9BDCE;
+  border-bottom: 0.5px solid #BBBBBB;
+  & > div {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+  }
+  .botImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 10px 15px;
+    object-fit: cover;
+    box-shadow: 0px 0px 2px 0px gray;
+  }
+  & > .txt {
+    line-height: 60px;
+  }
+}
+.messageContainer {
+  height: calc(100% - 160px);
+  overflow-y: auto;
+  padding: 10px;
+  background: #B2C7D9;
+}
+.messageContainer::-webkit-scrollbar {
+  display: initial;
+  width: 7px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 50px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+.messageContainer::-webkit-scrollbar-thumb:vertical {
+  -webkit-border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0);
+  min-height: 10px;
+  &:active {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+  }
+}
+.message {
+  display: flex;
+  align-items: stretch;
+  margin: 10px 0;
+  height: auto;
+  .profImg {
+    height: 100%;
+  }
+  .profImg > img {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px 0px gray;
+  }
+  .msgContent {
+    margin: 0 3px;
+    max-width: 65%;
+    // padding: 5px 7px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px 0px lightgray;
+    position: relative;
+    font-size: 0.9em;
+    & > div {
+      padding: 7px 7px 2px;
+      white-space: pre-line;
+    }
+  }
+  .msgTime {
+    font-size: 0.7em;
+    position: relative;
+    width: 45px;
+    & > div {
+      position: absolute;
+      bottom: 5px;
+    }
+  }
+  &.botMessage {
+    flex-direction: row;
+    .msgContent {
+      background: white;
+      &::after {
+        position: absolute;
+        width: 0; height: 0;
+        border-top: 5px solid transparent;
+        border-right: 6px solid white;
+        border-bottom: 5px solid transparent;
+        right: 100%;
+        top: 5px;
+      }
+    }
+  }
+  &.userMessage {
+    flex-direction: row-reverse;
+    .profImg {
+      display: none;
+    }
+    .msgContent {
+      background: #FFEB33;
+      &::after {
+        position: absolute;
+        width: 0; height: 0;
+        border-top: 5px solid transparent;
+        border-left: 6px solid #FFEB33;
+        border-bottom: 5px solid transparent;
+        left: 100%;
+        top: 5px;
+      }
+    }
+  }
+}
+.sendMessage {
+  height: 100px;
+  border-top: 1px solid lightgray;
+  .inputContainer {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 80px);
+    padding: 0 10px;
+  }
+  .btnContainer {
+    display: inline-block;
+    vertical-align: top;
+    width: 80px;
+    .sendBtn {
+      margin-top: 30px;
+      width: 90%;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      background: #FFEC42;
+      border-radius: 5px;
+      border: 1px solid #F5E340;
+      cursor: pointer;
+      color: #4D3636;
+      transition: all 0.3s;
+      &:hover {
+        background: #F5E340;
+      }
+      &:disabled {
+        background: #FFEC42;
+        color: #BDB03A;
+        cursor: initial;
+      }
+    }
+  }
+}
+</style>
+```
+
+- The `div.messageContainer` section renders Firestore `conversations` data in realtime. Refer to the `onSnapshot` method used in the `created()` lifecycle.
+- When the "Send" button is clicked, user input is stored in both Firestore `questions` and `conversations` collections. Refer to the `sendMsg()` method.
+
+<br>
+
+<br>
+
+### Finito!
