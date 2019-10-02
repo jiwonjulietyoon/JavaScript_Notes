@@ -2,14 +2,16 @@
 
 -by Jiwon
 
+<br>
 
+<br>
 
 ## Vue 프로젝트 생성하기
 
 1. `vue create [프로젝트 이름]`  으로 프로젝트 생성
 2. Please pick a preset => Manually select features 선택
 3. Router, Vuex, Linter/Formatter 등 프로젝트에서 필요한 기능과 함께 __CSS Pre-processors__ 도 선택
-   
+  
    - CSS Pre-processors 의 종류 중에서는 __Node__ SCSS 선택
 4. 나머지 설정은 디폴트값을 선택해도 무방
 5. `vue add vuetify`로 Vuetify도 추가해준다. 
@@ -27,7 +29,9 @@
      > </template>
      > ```
 
+<br>
 
+<br>
 
 ## 기본 CSS 세팅하기
 
@@ -46,7 +50,7 @@
 >
 > - `scoped`는 style 태그에서 정의될 선택자의 속성들이 해당 컴포넌트에서만 유효하다는 것을 의미한다. 어차피 공통적으로 사용될 css는 `src/css/`에 넣어줄 예정이므로 웬만한 개별 컴포넌트의 style 태그는 `scoped`로 지정한다.
 
-
+<br>
 
 `src/css/reset.css` 파일을 추가해준다.
 
@@ -97,13 +101,13 @@
 > ```
 > (사실 *와 같은 전체 선택자는 퍼포먼스를 약간 저하시킨다고 하여 최대한 안 써주는 게 좋긴 하지만...)
 
-
+<br>
 
 `src/css/style.scss` 파일도 추가해준다.
 
 - 프로젝트 전체 및 모든 컴포넌트에서 공통적으로 사용될 css 속성을 넣어줄 파일이다. 확장자는 `scss`이지만 일반 css 문법을 써도 괜찮다.
 
-
+<br>
 
 `reset.css`와 `style.scss` 파일은 `App.vue`에 다음과 같이 추가해준다:
 
@@ -114,7 +118,7 @@
 </style>
 ```
 
-
+<br>
 
 개별 컴포넌트에서도 `style.scss`에 정의해놓은 css 속성을 사용하고 싶다면,
 
@@ -126,15 +130,15 @@
 
 이런 식으로 임포트해주면 된다. 사실 모든 컴포넌트 파일을 생성할 때 이 부분을 기본적으로 복붙하는 게 편리하긴 하다.
 
+<br>
 
-
-
+<br>
 
 ## SCSS 기본 활용 방법
 
 > (아직 scss를 완벽하게 다 숙지하지는 않아서 엄청 자유자재로 활용할 수 있는 단계는 아니지만, 아래는 여태까지 scss 문법을 쓰면서 생각했던 내용을 정리한 것임)
 
-
+<br>
 
 SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도와준다:
 
@@ -142,7 +146,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 - 함께 사용되는 속성 몇 가지를 그룹화해서 반복적으로 재사용하기
 - 복잡한 선택자의 단순화
 
-
+<br>
 
 변수 처리: 색상 예시
 
@@ -152,7 +156,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > 나중에 배경색상을 `#DDDDDD`로 바꾸고 싶어졌을 때, `style.scss`의 `$bgColor` 부분만 바꿔주면 해당 변수를 사용하고 있던 모든 요소의 색상이 일괄적으로 변한다. 
 
-
+<br>
 
 변수 처리: 폰트 예시
 
@@ -162,7 +166,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > 정확한 폰트 명이 외워지지 않는 경우가 많은데, 변수 처리를 하면 내가 원하는 대로 폰트 변수 명을 지정할 수 있어서 특히 편하다.
 
-
+<br>
 
 속성 그룹화하기 예시: 요소 중앙 정렬
 
@@ -219,7 +223,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > *) 위의 방식으로 중앙 정렬을 할 때에는 반드시 부모 요소에 `position: relative;`를 설정해주어야 한다.
 
-
+<br>
 
 복잡한 선택자의 단순 표기 예시
 
@@ -253,9 +257,9 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > SCSS문법이 알맞게 써졌는지 궁금할 때는 [SCSS to CSS 컴파일러](https://www.cssportal.com/scss-to-css/)에 넣어보면 된다. (Compile 클릭하면 아래에 순수 CSS 버젼으로 컴파일해줌)
 
+<br>
 
-
-
+<br>
 
 ## 눈뽕을 위한 Vue.js 라이브러리 소개
 
@@ -263,7 +267,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 
 아래에 소개할 Vue.js 애니메이션 라이브러리는 비교적 간편한 설치 및 세팅이 가능하다.
 
-
+<br>
 
 ### AOS (Animate on Scroll)
 
@@ -304,7 +308,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > [주의] 이 라이브러리는 CSS의 `transform: translate()` 속성을 활용하는 것으로 추정된다. 따라서 이미 `transform` 속성이 적용돼 있는 요소에 `AOS`를 추가로 적용하고자 하면 원하지 않은 결과가 나올 수도 있다. 이럴 때는 애니메이션을 적용하고자 하는 요소를 둘러싼 부모 container 요소를 별도로 생성하고, 이 부모 container 요소에 `AOS`를 적용하면 된다.
 
-
+<br>
 
 ### Vue Page Transition
 
@@ -341,7 +345,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 > - `name` 부분은 적용할 transition 효과 이름으로, 자세한 내용은  [Demo](<https://orlandster.github.io/vue-page-transition/#/>) 참고 바람
 > - 만약 transition을 적용할 `<router-view />` 가 동일한 컴포넌트를 활용할 경우 (parameter만 변동된다든지), `:key="$route.fullPath"` 를 속성으로 추가해준다. 이 속성이 없으면 파라미터에 변동이 있어도 라우터 자체는 동일한 것으로 간주되어 transition이 해당 컴포넌트가 로딩되는 최초 한 번만 실행된다.
 
-
+<br>
 
 ### Vue Sequential Entrance
 
@@ -376,7 +380,7 @@ SCSS는 다음과 같은 면에서 CSS를 더 효율적으로 쓸 수 있게 도
 >
 > 애니메이션 방향은 4가지이며 (`fromTop`, `fromRight`, `fromBottom`, `fromLeft`), `<sequential-entrance fromTop>` 와 같이 지정하면 된다. (디폴트로 `fromRight`이 지정되어 있다)
 
-
+<br>
 
 ### +) JQuery
 
