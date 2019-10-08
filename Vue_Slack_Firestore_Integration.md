@@ -85,6 +85,7 @@ In terminal:
 2. In the Vue project terminal:
 
    - `npm install -g firebase-tools --save`
+     - yarn global add firebase-tools
    - `firebase login`
    - `firebase init`
    - `firebase deploy`
@@ -94,6 +95,8 @@ In terminal:
 3. A `functions/index.js` file will have been created in the Vue project directory. Add the following [Firestore trigger background function](<https://firebase.google.com/docs/functions/firestore-events>):
 
    ```javascript
+   const request = require("request");
+   ...
    exports.notifyNewQuestion = functions.firestore
        .document('/questions/{questionID}')
        .onCreate((snap, context) => {
@@ -217,154 +220,60 @@ In terminal:
 
 ### Step 5) Clone KakaoTalk on the Vue project
 
-> DISCLAIMER! The following is a very rough version. I didn't have much time to spare on the clone coding part, so the CSS (and SCSS) are not perfectly tidied up yet (as of September 28, 2019).
+<https://github.com/jiwonjulietyoon/Kakao-Slackbot/>
 
-**Directory architecture for `/src/`** (major files only)
-
-```
-assets/
-components/
-css/
-	reset.css
-firebase/
-	config.js
-	firebase.js
-views/
-	Home.vue    => Kakao chatroom clone component
-App.vue
-main.js
-router.js
-```
-
-**firebase/config.js**
-
-```javascript
-// Firebase project settings => Add web app => Select "Config" for Firebase SDK snippet
-
-export default {
-  apiKey: "[FIREBASE API KEY]",
-  authDomain: "[FIREBASE PROJECT NAME].firebaseapp.com",
-  databaseURL: "https://[FIREBASE PROJECT NAME].firebaseio.com",
-  projectId: "[FIREBASE PROJECT NAME]",
-  storageBucket: "[FIREBASE PROJECT NAME].appspot.com",
-  messagingSenderId: "111111111",
-  appId: "[APP ID]"
-}
-```
-
-**firebase/firebase.js**
-
-```javascript
-import firebase from 'firebase'
-import 'firebase/firestore'
-import firebaseConfig from './config'
-
-const firebaseApp = firebase.initializeApp(firebaseConfig)
-export default firebaseApp.firestore()
-```
-
-**App.vue**
+`src/views/Chat_Slackbot.vue`
 
 ```vue
 <template>
-  <v-app>
-    <router-view />
-  </v-app>
-</template>
-
-<script>
-export default {
-  name: 'App',
-};
-</script>
-
-<style lang="scss" scoped>
-@import "./css/reset.css";
-</style>
-```
-
-**reset.css** (what I normally use for my Vue projects)
-
-```css
-html, body, div, span, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre, a,
-del, em, img, ins, q, s, 
-small, strike, strong, sub, sup, 
-b, u, i, center, dl, dt, dd, ol, ul, li,
-fieldset, form, label,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header,
-menu, nav, section, summary {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-a, a:hover {
-	color: initial;
-	text-decoration: none;
-}
-div:before, div:after, span:before, span:after {
-    content: "";
-}
-ol, ul {
-    list-style: none;
-}
-```
-
-**views/Home.vue**
-
-```vue
-<template>
-  <div id="wrap">
-    <div class="chatContainer">
-      <div class="botInfo">
-        <div>
-          <img class="botImg" src="IMAGE URL for SLACK BOT PROFILE">
-        </div>
-        <div class="txt">
-          Slack Bot
-        </div>
+  <div class="kakaoContainer">
+    <div class="botInfo">
+      <!-- Mac Window Buttons -->
+      <div class="btnBoxMac">
+        ...
       </div>
-      <div class="messageContainer" id="scroll">
-        <div v-for="c in conversations" :key="c.id">
-          <div class="message" 
-            :class="c.slackbot ? 'botMessage' : 'userMessage'"
-          >
-            <div class="profImg">
-              <img src="IMAGE URL for SLACK BOT PROFILE">
-            </div>
-            <div class="msgContent">
-              <div>{{c.message}}</div>
-            </div>
-            <div class="msgTime">
-              <div
-                :title="full_date(c)"
-              >
-                {{get_time(c)}}
-              </div>
-            </div>
-          </div>
-        </div>
+
+      <div class="infoBox">
+        ...
       </div>
-      <div class="sendMessage">
-        <v-form
-          ref="form"
-          v-model="valid"
+    </div>
+    
+    <div class="messageContainer scrollable" id="scroll">
+      <div v-for="c in conversations" :key="c.id">
+        <div class="message" 
+          :class="c.slackbot ? 'botMessage' : 'userMessage'"
         >
-          <div class="inputContainer">
-            <v-textarea 
-              rows=3 
-              autofocus
-              v-model="message"
-              :rules="msgRules"
-              @keydown.enter="handler"
-            />
+          <div class="profImg">
+            <img src="@/assets/slack-icon.png">
           </div>
-          <div class="btnContainer">
-            <button @click="sendMsg" class="sendBtn" :disabled="!valid">Send</button>
+          <div class="msgContent">
+            <div>{{c.message}}</div>
           </div>
-        </v-form>
+          <div class="msgTime">
+            <div
+              :title="full_date(c)"
+            >
+              {{get_time(c)}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="attach">
+      <i class="material-icons-round icons left emoji">tag_faces</i>
+      <i class="material-icons-round icons left clip">attachment</i>
+      <i class="material-icons-round icons right video">videocam</i>
+      <i class="material-icons-round icons right phone">phone</i>
+    </div>
+    
+    <div class="sendMessage">
+      <div class="inputContainer">
+        <textarea v-model="message" @keydown.enter="handler" class="scrollable" autofocus :placeholder="isAdmin ? '' : 'Read Only for Visitors :)'"></textarea>
+      </div>
+      <div class="btnContainer">
+        <button @click.prevent="sendMsgVisitor" :disabled="!valid">Send</button>
+        <button @click.prevent="sendMsgAdmin" :class="{'hidden': !isAdmin}" :disabled="!valid">Send</button>
       </div>
     </div>
   </div>
@@ -373,42 +282,76 @@ ol, ul {
 <script>
 import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
+import { mapGetters } from "vuex";
 export default {
+  name: "Chat_Slackbot",
   data() {
     return {
-      // Sending New Messages/Questions
-      valid: true,
-      msgRules: [v => !!v || ""],
+      windowBtnHover: false,
       message: "",
-      // Rendering chat history
-      conversations: []
+      conversations: [],
+    }
+  },
+  computed: {
+    ...mapGetters(["user"]),
+    ...mapGetters({ isAdmin: "checkIfAdmin" }),
+    valid() {
+      return this.message ? true : false
     }
   },
   watch: {
     conversations() {
       this.scrollToBottom();
-    }
+    },
   },
   methods: {
-    sendMsg() {
-      let now = new Date();
-      firestore.collection('conversations')
-        .add({
+    exitKakaoTalk() {
+      this.$router.replace('/home');
+    },
+    sendMsgAdmin() {
+      if (this.message) {
+        let now = new Date();
+        firestore.collection('conversations')
+          .add({
+            created_at: now.getTime(),
+            slackbot: false,
+            message: this.message,
+            username: "Admin"
+          });
+        firestore.collection('questions')
+          .add({
+            question: this.message
+          });
+        this.message = "";
+      }
+    },
+    sendMsgVisitor() {
+      if (this.message) {
+        let now = new Date();
+        this.conversations.push({
           created_at: now.getTime(),
           slackbot: false,
           message: this.message,
-          username: "USERNAME"
+          username: "Visitor"
         });
-      firestore.collection('questions')
-        .add({
-          question: this.message
-        });
-      this.message = "";
+        this.conversations.push({
+          created_at: now.getTime(),
+          slackbot: true,
+          message: "Visitor 계정은 챗봇에 연결되어 있지 않습니다 :(",
+          username: "Slackbot"
+        })
+        this.message = "";
+      }
     },
     handler(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
-        this.sendMsg();
+        if (this.isAdmin) {
+          this.sendMsgAdmin();
+        }
+        else {
+          this.sendMsgVisitor();
+        }
       }
     },
     full_date(c) {
@@ -427,9 +370,15 @@ export default {
         let h = date.getHours();
         let m = date.getMinutes();
         let ampm = "AM";
-        if (h > 12) {
+        if (h === 0) {
+          h = 12;
+        }
+        else if (h > 12) {
           h -= 12;
-          ampm = "PM"
+          ampm = "PM";
+        }
+        if (m < 10) {
+          m = '0'+m;
         }
         return `${h}:${m} ${ampm}`
       }
@@ -439,10 +388,11 @@ export default {
       }
       
     },
-    scrollToBottom() {
-      const elem = document.getElementById('scroll')
-      let height = elem.scrollHeight;
-      elem.scrollTop = height + 100;
+    scrollToEnd () {
+      this.$nextTick(() => {
+        var elem = this.$el.querySelector('#scroll')
+        elem.scrollTop = elem.scrollHeight
+      })
     }
   },
   created() {
@@ -452,189 +402,16 @@ export default {
         changes.forEach(change => {
           if (change.type === "added") {
             this.conversations.push(change.doc.data());
+            this.scrollToEnd();
           }
         })
       });
   },
   mounted() {
-    this.scrollToBottom();
+    this.scrollToEnd();
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "@/css/style.scss";
-#wrap {
-  width: 100%;
-  background: linear-gradient(to left, #0F2027, #203A43);
-}
-.chatContainer {
-  width: 500px;
-  height: 100vh;
-  margin: 0 auto;
-  background: white;
-  @include maxWidth(500) {
-    width: 100%;
-  }
-  overflow: hidden;
-}
-.botInfo {
-  height: 60px;
-  background: #A9BDCE;
-  border-bottom: 0.5px solid #BBBBBB;
-  & > div {
-    display: inline-block;
-    vertical-align: top;
-    height: 100%;
-  }
-  .botImg {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    margin: 10px 15px;
-    object-fit: cover;
-    box-shadow: 0px 0px 2px 0px gray;
-  }
-  & > .txt {
-    line-height: 60px;
-  }
-}
-.messageContainer {
-  height: calc(100% - 160px);
-  overflow-y: auto;
-  padding: 10px;
-  background: #B2C7D9;
-}
-.messageContainer::-webkit-scrollbar {
-  display: initial;
-  width: 7px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 50px;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-}
-.messageContainer::-webkit-scrollbar-thumb:vertical {
-  -webkit-border-radius: 50px;
-  background-color: rgba(0, 0, 0, 0.4);
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0);
-  min-height: 10px;
-  &:active {
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 50px;
-    -webkit-border-radius: 50px;
-  }
-}
-.message {
-  display: flex;
-  align-items: stretch;
-  margin: 10px 0;
-  height: auto;
-  .profImg {
-    height: 100%;
-  }
-  .profImg > img {
-    width: 30px;
-    height: 30px;
-    margin-right: 15px;
-    object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0px 0px 2px 0px gray;
-  }
-  .msgContent {
-    margin: 0 3px;
-    max-width: 65%;
-    // padding: 5px 7px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px 0px lightgray;
-    position: relative;
-    font-size: 0.9em;
-    & > div {
-      padding: 7px 7px 2px;
-      white-space: pre-line;
-    }
-  }
-  .msgTime {
-    font-size: 0.7em;
-    position: relative;
-    width: 45px;
-    & > div {
-      position: absolute;
-      bottom: 5px;
-    }
-  }
-  &.botMessage {
-    flex-direction: row;
-    .msgContent {
-      background: white;
-      &::after {
-        position: absolute;
-        width: 0; height: 0;
-        border-top: 5px solid transparent;
-        border-right: 6px solid white;
-        border-bottom: 5px solid transparent;
-        right: 100%;
-        top: 5px;
-      }
-    }
-  }
-  &.userMessage {
-    flex-direction: row-reverse;
-    .profImg {
-      display: none;
-    }
-    .msgContent {
-      background: #FFEB33;
-      &::after {
-        position: absolute;
-        width: 0; height: 0;
-        border-top: 5px solid transparent;
-        border-left: 6px solid #FFEB33;
-        border-bottom: 5px solid transparent;
-        left: 100%;
-        top: 5px;
-      }
-    }
-  }
-}
-.sendMessage {
-  height: 100px;
-  border-top: 1px solid lightgray;
-  .inputContainer {
-    display: inline-block;
-    vertical-align: top;
-    width: calc(100% - 80px);
-    padding: 0 10px;
-  }
-  .btnContainer {
-    display: inline-block;
-    vertical-align: top;
-    width: 80px;
-    .sendBtn {
-      margin-top: 30px;
-      width: 90%;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      background: #FFEC42;
-      border-radius: 5px;
-      border: 1px solid #F5E340;
-      cursor: pointer;
-      color: #4D3636;
-      transition: all 0.3s;
-      &:hover {
-        background: #F5E340;
-      }
-      &:disabled {
-        background: #FFEC42;
-        color: #BDB03A;
-        cursor: initial;
-      }
-    }
-  }
-}
-</style>
 ```
 
 - The `div.messageContainer` section renders Firestore `conversations` data in realtime. Refer to the `onSnapshot` method used in the `created()` lifecycle.
@@ -645,3 +422,18 @@ export default {
 <br>
 
 ### Finito!
+
+<br>
+
+<br>
+
+#### (Deploying Vue Project to Firebase)
+
+`firebase init`
+
+- What do you want to use as your public directory? => `dist`
+- Configure as a single-page app (rewrite all urls to /index.html)? => `y`
+
+`npm run build`
+
+`firebase deploy --only hosting`
