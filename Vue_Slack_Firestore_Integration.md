@@ -144,7 +144,6 @@ In terminal:
    from slack import WebClient
    from slackeventsapi import SlackEventAdapter
    
-   
    import firebase_admin
    from firebase_admin import credentials
    from firebase_admin import firestore
@@ -176,7 +175,9 @@ In terminal:
            'created_at': time.time()*1000,
            'slackbot': True,
            'message': response,
-           'username': 'SlackBotName'
+           'username': 'SlackBotName',
+           'unread': True,
+           'new': True
        })
        return response
        
@@ -184,6 +185,11 @@ In terminal:
    # Triggered when Slackbot is mentioned in any Slack channel
    @slack_events_adaptor.on("app_mention")
    def app_mentioned(event_data):
+       # Prevent Slackbot from making multiple responses to a single HTTP request
+       # due to the 3-second server timeout rule
+       if request.headers.get('X-Slack-Retry-Num') != None:
+           return make_response("Ignoring retries", 200)
+   
        channel = event_data["event"]["channel"]
        bot_name = event_data['authed_users'][0]
        text = event_data["event"]["text"].replace(f"<@{bot_name}>", "")
@@ -196,18 +202,19 @@ In terminal:
        
    @app.route("/", methods=["GET"])
    def index():
-       return "<h1>Server is ready.</h1>"
+    return "<h1>Server is ready.</h1>"
    
    
    if __name__ == '__main__':
        app.run()
    ```
-
+   
    - Store chatbot's response in Firestore `conversations` collection. Data modeling is as follows:
      - `created_at` : Number (unix epoch time in milliseconds, e.g 1569396265806)
      - `slackbot` : Boolean (`True` if message sender is Slackbot, otherwise `False`)
      - `message` : String
      - `username` : String
+     - `unread`, `new` : Boolean (used to replicate KakaoTalk's unread message sign - the little '1')
    - `bot_name` will give you the unique ID of the particular Slackbot, e.g) UM61N25K9
 
 > How to run `app.py` via Ngrok (Windows version):
@@ -220,7 +227,7 @@ In terminal:
 
 ### Step 5) Clone KakaoTalk on the Vue project
 
-<https://github.com/jiwonjulietyoon/Kakao-Slackbot/>
+Please refer to <https://github.com/jiwonjulietyoon/Kakao-Slackbot/> for the most recent version.
 
 `src/views/Chat_Slackbot.vue`
 
@@ -254,6 +261,7 @@ In terminal:
               :title="full_date(c)"
             >
               {{get_time(c)}}
+              <span class="unread" :class="{'display': c.unread}">1</span>
             </div>
           </div>
         </div>
@@ -276,6 +284,11 @@ In terminal:
         <button @click.prevent="sendMsgAdmin" :class="{'hidden': !isAdmin}" :disabled="!valid">Send</button>
       </div>
     </div>
+      
+    <!-- Profile Dialog for Slackbot -->
+    <v-dialog v-model="profileDialog" class="profileDialog" width="300">
+      <ProfileDialogSlackbot @child="parents" :dialog="profileDialog" />
+    </v-dialog>
   </div>
 </template>
 
@@ -283,13 +296,19 @@ In terminal:
 import firestore from "@/firebase/firebase";
 import firebase from "firebase/app";
 import { mapGetters } from "vuex";
+import ProfileDialogSlackbot from "@/components/ProfileDialogSlackbot.vue";
+
 export default {
   name: "Chat_Slackbot",
+  components: {
+    ProfileDialogSlackbot
+  },
   data() {
     return {
       windowBtnHover: false,
       message: "",
       conversations: [],
+      profileDialog: false,
     }
   },
   computed: {
@@ -299,25 +318,22 @@ export default {
       return this.message ? true : false
     }
   },
-  watch: {
-    conversations() {
-      this.scrollToBottom();
-    },
-  },
   methods: {
     exitKakaoTalk() {
       this.$router.replace('/home');
     },
     sendMsgAdmin() {
-      if (this.message) {
-        let now = new Date();
+      const trimmedMsg = this.message.replace(/\s+/g, '');
+      if (trimmedMsg) {
         firestore.collection('conversations')
           .add({
-            created_at: now.getTime(),
+            created_at: firebase.firestore.FieldValue.serverTimestamp(),
             slackbot: false,
             message: this.message,
-            username: "Admin"
-          });
+            username: "Admin",
+            unread: true,
+            new: true
+          })
         firestore.collection('questions')
           .add({
             question: this.message
@@ -326,74 +342,28 @@ export default {
       }
     },
     sendMsgVisitor() {
-      if (this.message) {
-        let now = new Date();
-        this.conversations.push({
-          created_at: now.getTime(),
-          slackbot: false,
-          message: this.message,
-          username: "Visitor"
-        });
-        this.conversations.push({
-          created_at: now.getTime(),
-          slackbot: true,
-          message: "Visitor 계정은 챗봇에 연결되어 있지 않습니다 :(",
-          username: "Slackbot"
-        })
-        this.message = "";
-      }
+      ...
     },
     handler(e) {
-      if (e.keyCode === 13 && !e.shiftKey) {
-        e.preventDefault();
-        if (this.isAdmin) {
-          this.sendMsgAdmin();
-        }
-        else {
-          this.sendMsgVisitor();
-        }
-      }
+      ...
     },
     full_date(c) {
-      if (c.created_at) {
-        const date = new Date(c.created_at);
-        return String(date).split("GMT")[0];
-      }
-      else {
-        const date = new Date();
-        return String(date).split("GMT")[0];
-      }
+      ...
+      return String(date).split("GMT")[0];
     },
     get_time(c) {
-      if (c.created_at) {
-        const date = new Date(c.created_at);
-        let h = date.getHours();
-        let m = date.getMinutes();
-        let ampm = "AM";
-        if (h === 0) {
-          h = 12;
-        }
-        else if (h > 12) {
-          h -= 12;
-          ampm = "PM";
-        }
-        if (m < 10) {
-          m = '0'+m;
-        }
-        return `${h}:${m} ${ampm}`
-      }
-      else {
-        const date = new Date();
-        return `${date.getHours()}:${date.getMinutes()}`
-      }
-      
+      ...
+      return `${h}:${m} ${ampm}`
     },
     scrollToEnd () {
       this.$nextTick(() => {
-        var elem = this.$el.querySelector('#scroll')
+        const elem = this.$el.querySelector('#scroll')
         elem.scrollTop = elem.scrollHeight
       })
-    }
+    },
+    parents(dialog) {
+      this.profileDialog = dialog;
+    },
   },
   created() {
     firestore.collection('conversations').orderBy("created_at")
@@ -401,7 +371,36 @@ export default {
         let changes = snapshot.docChanges();
         changes.forEach(change => {
           if (change.type === "added") {
-            this.conversations.push(change.doc.data());
+            let data = change.doc.data()
+            data.id = change.doc.id
+            if (data.slackbot) {
+              this.conversations.forEach(doc => {
+                firestore.collection('conversations').doc(doc.id).update({
+                  unread: false,
+                  new: false
+                })
+                doc.unread = false;
+                doc.new = false;
+              })
+            }
+            if (data.created_at !== null) {
+              data.created_at = Number(String(data.created_at.seconds) + String(data.created_at.nanoseconds).slice(0,3))
+            }
+            if (data.new === false) {
+              this.conversations.push(data);
+            } else {
+              if (data.slackbot) {
+                setTimeout(() => {
+                  this.conversations.push(data);
+                  firestore.collection('conversations').doc(data.id).update({
+                    new: false
+                  })
+                  this.scrollToEnd();
+                }, 2000);
+              } else {
+                this.conversations.push(data);
+              }
+            }
             this.scrollToEnd();
           }
         })
