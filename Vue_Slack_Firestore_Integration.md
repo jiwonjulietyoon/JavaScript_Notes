@@ -2,6 +2,8 @@
 
 September 2019, Jiwon Juliet Yoon
 
+Related Project: [KakaoTalk-Clone Slackbot](<https://github.com/jiwonjulietyoon/Kakao-Slackbot>)
+
 ### Intro
 
 This post mostly focuses on the **front-end web** aspect of building a KakaoTalk clone chatbot, as well as the overall process of **integrating Slack, Firestore, and Vue.js**. (This post does NOT discuss the chatbot training process, i.e the core AI & machine learning algorithm that constructs a relevant chatbot response based on the user input.)
